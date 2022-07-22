@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 import Header from '../sections/shared/Header'
 import Play from '../sections/play/Play'
 import Rules from '../sections/rules/Rules'
+import History from '../sections/history/History'
 import Footer from '../sections/shared/Footer'
 
 const Home: NextPage = () => {
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
         <Header></Header>
         { currentPage == 'home' && <Play></Play>}
         { currentPage == 'rules' && <Rules></Rules>}
-        { currentPage == 'history' && <p>History</p>}
+        { currentPage == 'history' && <History></History>}
         <Footer currentPage={currentPage} handleClick={(page) => setCurrentPage(page)}></Footer>
       </main>
     </div>
