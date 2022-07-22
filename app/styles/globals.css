@@ -25,3 +25,16 @@ a {
 * {
   outline-color: black;
 }
+
+/* Text */
+.colored {
+  color: #84aa21;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}

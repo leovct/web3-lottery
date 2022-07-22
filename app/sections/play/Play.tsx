@@ -33,19 +33,6 @@ const Container = styled.div`
 	#subtitle {
 		margin: 0;
 	}
-
-	/* Text */
-	.colored {
-		color: #84aa21;
-	}
-
-	.italic {
-		font-style: italic;
-	}
-
-	.underline {
-		text-decoration: underline;
-	}
 `
 
 const MainContainer = styled.div`
