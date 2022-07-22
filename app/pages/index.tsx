@@ -1,7 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+
+import Header from '../sections/shared/Header'
+import Play from '../sections/play/Play'
+import Footer from '../sections/shared/Footer'
 
 const Home: NextPage = () => {
   return (
@@ -13,7 +16,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1>Hello World!</h1>
+        <Header></Header>
+        <Play></Play>
+        <Footer></Footer>
       </main>
     </div>
   )
