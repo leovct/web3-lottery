@@ -15,26 +15,31 @@ type FooterProps = {
 const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 	return (
 		<Container>
-			<Menu>
-				<Button
-					className={`${currentPage == "home" ? "highlight" : ""}`}
-					onClick={() => handleClick("home")}
-				>
-					Play!
-				</Button>
-				<Button
-					className={`${currentPage == "rules" ? "highlight" : ""}`}
-					onClick={() => handleClick("rules")}
-				>
-					The Rules
-				</Button>
-				<Button
-					className={`${currentPage == "history" ? "highlight" : ""}`}
-					onClick={() => handleClick("history")}
-				>
-					History
-				</Button>
-			</Menu>
+			<MainContainer>
+				<Menu>
+					<Button
+						className={`${currentPage == "home" ? "highlight" : ""}`}
+						onClick={() => handleClick("home")}
+					>
+						Play!
+					</Button>
+					<Button
+						className={`${currentPage == "rules" ? "highlight" : ""}`}
+						onClick={() => handleClick("rules")}
+					>
+						The Rules
+					</Button>
+					<Button
+						className={`${currentPage == "history" ? "highlight" : ""}`}
+						onClick={() => handleClick("history")}
+					>
+						History
+					</Button>
+				</Menu>
+				<p className="small colored italic">
+					made with ❤️ by <a className="colored underline" href="https://twitter.com/leoovct" target="_blank" rel="noreferrer">@leovct</a>
+				</p>
+			</MainContainer>
 
 			<ExternalLinks>
 				<a href="https://github.com/leovct/avocado" target="_blank" rel="noreferrer">
@@ -65,6 +70,18 @@ const Container = styled.div`
 	}
 `
 
+const MainContainer = styled.div`
+	/* Layout */
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	/* Text */
+	.small {
+		font-size: 12px;
+	}
+`
+
 const Button = styled.button`
 	/* Remove default styling */
 	background: none;
@@ -84,7 +101,6 @@ const Button = styled.button`
 
 const Menu = styled.div`
 	/* Layout */
-	width: 100%;
 	display: flex;
 	gap: 40px;
 `
