@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { SetStateAction, useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
@@ -7,6 +8,8 @@ import Play from '../sections/play/Play'
 import Footer from '../sections/shared/Footer'
 
 const Home: NextPage = () => {
+  const [currentPage, setCurrentPage] = useState<string>("home");
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -17,8 +20,10 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Header></Header>
-        <Play></Play>
-        <Footer></Footer>
+        { currentPage == 'home' && <Play></Play>}
+        { currentPage == 'rules' && <p>Rules</p>}
+        { currentPage == 'history' && <p>History</p>}
+        <Footer currentPage={currentPage} handleClick={(page) => setCurrentPage(page)}></Footer>
       </main>
     </div>
   )

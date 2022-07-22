@@ -7,19 +7,33 @@ import PolygonLogo from "../../assets/polygon.png"
 
 const IMG_SIZE = "32px"
 
-const Footer: FC = () => {
+type FooterProps = {
+	currentPage: string;
+	handleClick: (page: string) => void;
+}
+
+const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 	return (
 		<Container>
 			<Menu>
-				<a href="#" rel="noreferrer">
-					<p className="highlight">Play!</p>
-				</a>
-				<a href="#" rel="noreferrer">
-					<p>The Rules</p>
-				</a>
-				<a href="#" rel="noreferrer">
-					<p>History</p>
-				</a>
+				<Button
+					className={`${currentPage == "home" ? "highlight" : ""}`}
+					onClick={() => handleClick("home")}
+				>
+					Play!
+				</Button>
+				<Button
+					className={`${currentPage == "rules" ? "highlight" : ""}`}
+					onClick={() => handleClick("rules")}
+				>
+					The Rules
+				</Button>
+				<Button
+					className={`${currentPage == "history" ? "highlight" : ""}`}
+					onClick={() => handleClick("history")}
+				>
+					History
+				</Button>
 			</Menu>
 			<ExternalLinks>
 				<a href="https://github.com/leovct/avocado" target="_blank" rel="noreferrer">
@@ -45,13 +59,22 @@ const Container = styled.div`
 	// Text
 	.highlight {
 		font-weight: bold;
-	}
-
-	a:hover, a:focus {
 		color: #84aa21;
 	}
+`
 
-	
+const Button = styled.button`
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+
+	&:hover, &:focus {
+		color: #84aa21;
+	}
 `
 
 const Menu = styled.div`
