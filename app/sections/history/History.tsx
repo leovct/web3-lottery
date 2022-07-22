@@ -69,7 +69,7 @@ const MainContainer = styled.div`
 	/* Layout */
 	display: flex;
 	width: 44%;
-	margin: 80px 0px 40px 0px;
+	margin: 40px 0px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
