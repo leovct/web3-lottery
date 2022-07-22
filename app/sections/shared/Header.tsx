@@ -16,14 +16,14 @@ const Header: FC = () => {
 }
 
 const Container = styled.div`
-	// Layout
+	/* Layout */
 	height: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 16px;
 
-	// Title
+	/* Color */
 	color: #84aa21;
 `
 

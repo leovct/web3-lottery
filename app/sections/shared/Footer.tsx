@@ -35,6 +35,7 @@ const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 					History
 				</Button>
 			</Menu>
+
 			<ExternalLinks>
 				<a href="https://github.com/leovct/avocado" target="_blank" rel="noreferrer">
 					<Image src={GithubLogo} alt="github-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
@@ -48,6 +49,7 @@ const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 }
 
 const Container = styled.div`
+	/* Layout */
 	height: 100px;
 	margin: 0px 40px 20px 40px;
 
@@ -56,7 +58,7 @@ const Container = styled.div`
 	align-items: end;
 	gap: 30px;
 
-	// Text
+	/* Text */
 	.highlight {
 		font-weight: bold;
 		color: #84aa21;
@@ -64,26 +66,31 @@ const Container = styled.div`
 `
 
 const Button = styled.button`
+	/* Remove default styling */
 	background: none;
 	color: inherit;
 	border: none;
 	padding: 0;
 	font: inherit;
-	cursor: pointer;
 	outline: inherit;
 
+	/* User interaction */
+	cursor: pointer;
+	
 	&:hover, &:focus {
 		color: #84aa21;
 	}
 `
 
 const Menu = styled.div`
+	/* Layout */
 	width: 100%;
 	display: flex;
 	gap: 40px;
 `
 
 const ExternalLinks = styled.div`
+	/* Layout */
 	display: flex;
 	gap: 10px;
 `

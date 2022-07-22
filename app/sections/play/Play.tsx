@@ -5,6 +5,7 @@ const Play: FC = () => {
 	return (
 		<Container>
 			<p id="subtitle" className="colored italic">May the power of the avocado be with you...</p>
+
 			<MainContainer>
 				<BetContainer>
 					<NumericInput type="string" placeholder="your bet?"/>
@@ -12,8 +13,10 @@ const Play: FC = () => {
 						onClick={() => alert('You clicked on the button!')}
 					>submit</Button>
 				</BetContainer>
+
 				<p className="colored underline">Round ends on July 22, 2022 at 8pm UTC</p>
 			</MainContainer>
+
 			<p>Last winner: 0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A won 10Ξ</p>
 			<p>Biggest amount won so far: 120Ξ</p>
 		</Container>
@@ -21,13 +24,17 @@ const Play: FC = () => {
 }
 
 const Container = styled.div`
-	// Layout
+	/* Layout */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
-	// Text
+	#subtitle {
+		margin: 0;
+	}
+
+	/* Text */
 	.colored {
 		color: #84aa21;
 	}
@@ -39,13 +46,10 @@ const Container = styled.div`
 	.underline {
 		text-decoration: underline;
 	}
-
-	#subtitle {
-		margin: 0;
-	}
 `
 
 const MainContainer = styled.div`
+	/* Layout */
 	display: flex;
 	margin: 80px 0px 40px 0px;
 	flex-direction: column;
@@ -55,31 +59,33 @@ const MainContainer = styled.div`
 `
 
 const BetContainer = styled.div`
+	/* Layout */
 	display: flex;
 	gap: 40px;
 `
 
 const Button = styled.button`
-	cursor: pointer;
-
-	// Layout
+	/* Layout */
   height: 80px;
   width: 180px;
 
-	// Colors
+	/* Color */
 	background: #d16c3c;
 	color: white;
 
-	// Text
+	/* Text */
 	font-size: 26px;
 	font-weight: bold;
 
-	// Border
+	/* Border */
 	border: 1px solid transparent;
 	border-radius: 16px;
 
-	// Shadow
+	/* Shadow */
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+
+	/* User interaction */
+	cursor: pointer;
 
 	&:hover {
     background: #84aa21;
@@ -92,34 +98,28 @@ const Button = styled.button`
 `
 
 const NumericInput = styled.input`
-	// Remove default styling
+	/* Remove default styling */
 	border: none;
 
-	
-
-	// Layout
+	/* Layout */
   height: 80px;
   width: 320px;
-
-	// Color
-	background: #84aa21;
-
-	// Text
-	color: white;
 	text-align: center; 
+
+	/* Color */
+	background: #84aa21;
+	color: white;
+
+	/* Text */
+	font-size: 26px;
+	font-weight: bold;
 
 	::placeholder {
 		color: #d3d3d3;
 	}
 
+	/* Border */
 	border-radius: 16px;
-
-	
-	// Text
-	font-size: 26px;
-	font-weight: bold;
 `;
-
-
 
 export default Play;

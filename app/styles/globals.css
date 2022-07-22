@@ -1,22 +1,27 @@
 html,
 body {
+  /* Layout */
   padding: 0;
   margin: 0;
-  font-family: 'Helvetica', 'Arial', sans-serif;
-
   height: 100%;
 
+  /* Text */
+  font-family: 'Helvetica', 'Arial', sans-serif;
+
+  /* Color */
   background: #ddebb9;
 
   /* Disable text selection */
   user-select: none;
 }
 
-* {
-  outline-color: black;
-}
-
+/* Link */
 a {
   text-decoration: none;
   color: black;
+}
+
+/* Color focus */
+* {
+  outline-color: black;
 }
