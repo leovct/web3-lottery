@@ -2,6 +2,7 @@ import { FC } from "react"
 import styled from "styled-components"
 import Image from "next/image"
 
+import DevPostLogo from "../../assets/devpost.png"
 import GithubLogo from "../../assets/github.png"
 import PolygonLogo from "../../assets/polygon.png"
 
@@ -42,6 +43,9 @@ const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 			</MainContainer>
 
 			<ExternalLinks>
+			<a href="https://devpost.com/software/avocado-i92guw" target="_blank" rel="noreferrer">
+					<Image src={DevPostLogo} alt="devpost-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
+				</a>
 				<a href="https://github.com/leovct/avocado" target="_blank" rel="noreferrer">
 					<Image src={GithubLogo} alt="github-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
 				</a>
