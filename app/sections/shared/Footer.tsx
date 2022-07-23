@@ -78,7 +78,7 @@ const MainContainer = styled.div`
 
 	/* Text */
 	.small {
-		font-size: 12px;
+		font-size: 13px;
 	}
 `
 
