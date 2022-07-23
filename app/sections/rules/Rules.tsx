@@ -8,10 +8,10 @@ const Rules: FC = () => {
 
 			<MainContainer>
 				<p>1) Each round, people bet <span className="underline">once</span> on a number (integer and positive).</p>
-				<p>2) At the end of the round, the person who has bet the <span className="underline">smallest</span> number <span className="underline">that has not been bet by someone else</span> wins the jackpot.</p>
-				<p>3) A round lasts exactly 24 hours.</p>
-				<p>4) If there is no winner (all the people have bet on the same number), then we randomly choose a winner among the players using Chainlink VRF.</p>
-				<p>5) In order to finance maintenance and operational costs, the winner takes 95% of the stake and the team behind the project reserves 5%.</p>
+				<p>2) At the end of the round, we randomly pick a number using Chainlink VRF. The first person that bet on this number wins the jackpot.</p>
+				<p>3) If there is no winner, then we randomly choose a winner among the players.</p>
+				<p>4) A round lasts exactly 24 hours.</p>
+				<p>5) In order to finance maintenance and operational costs, the winner takes 92% of the stake, the team behind the project gets 5% and the contract keeps 3%.</p>
 			</MainContainer>
 		</Container>
 	)
@@ -40,4 +40,4 @@ const MainContainer = styled.div`
 	text-align: center;
 `
 
-export default Rules;
+export default Rules
