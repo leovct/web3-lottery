@@ -2,9 +2,16 @@
 
 This Hardhat project contains the contract, tests, deployment and verification script on the blockchain (local or on Polygon Mumbai) as well as CI/CD pipelines to test, audit and deploy the contract.
 
+## Getting started
+```
+$ npm install
+$ mv .env.example .env // fill in the requested values
+```
+
 ## Compile the contracts
 ```
 $ npx hardhat compile
+
 Generating typings for: 1 artifacts in dir: typechain-types for target: ethers-v5
 Successfully generated 6 typings!
 Compiled 1 Solidity file successfully
@@ -51,12 +58,14 @@ Avocado
 ## Deploy the contract locally
 ```
 $ npx hardhat run scripts/deploy.ts
+
 Avocado contract deployed to the hardhat blockchain: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 ```
 
 ## Deploy and verify the contract on Polygon Mumbai (testnet)
 ```
 $ npx hardhat run scripts/deploy.ts --network polygonMumbai
+
 Avocado contract deployed to the polygonMumbai blockchain: 0x22e4B51519A2C37d1a3024d2333aA494ea2759E4
 Waiting for 5 block confirmations before verifying the contract
 Nothing to compile
