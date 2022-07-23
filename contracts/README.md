@@ -2,6 +2,9 @@
 
 This Hardhat project contains the contract, tests, deployment and verification script on the blockchain (local or on Polygon Mumbai) as well as CI/CD pipelines to test, audit and deploy the contract.
 
+## Latest deployment
+https://mumbai.polygonscan.com/address/0x22e4b51519a2c37d1a3024d2333aa494ea2759e4
+
 ## Getting started
 ```
 $ npm install
