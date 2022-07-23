@@ -29,7 +29,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      optimisticKovan: process.env.ETHERSCAN_API_KEY || "",
+      polygonMumbai: process.env.ETHERSCAN_API_KEY || "",
     },
   },
 }
