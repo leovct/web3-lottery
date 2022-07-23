@@ -10,7 +10,7 @@ import History from '../sections/history/History'
 import Footer from '../sections/shared/Footer'
 
 const Home: NextPage = () => {
-  const [currentPage, setCurrentPage] = useState<string>("home");
+  const [currentPage, setCurrentPage] = useState<string>("home")
   
   return (
     <div className={styles.container}>

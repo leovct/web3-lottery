@@ -8,8 +8,8 @@ import PolygonLogo from "../../assets/polygon.png"
 const IMG_SIZE = "32px"
 
 type FooterProps = {
-	currentPage: string;
-	handleClick: (page: string) => void;
+	currentPage: string
+	handleClick: (page: string) => void
 }
 
 const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {

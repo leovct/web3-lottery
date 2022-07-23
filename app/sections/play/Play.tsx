@@ -17,8 +17,8 @@ const Play: FC = () => {
 				<p className="colored underline">Round ends on July 22, 2022 at 8pm UTC</p>
 			</MainContainer>
 
-			<p>Last winner: 0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A won 10Ξ</p>
-			<p>Biggest amount won so far: 120Ξ</p>
+			<p>Last winner: 0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A won 10 MATIC</p>
+			<p>Biggest amount won so far: 120 MATIC</p>
 		</Container>
 	)
 }
@@ -109,4 +109,4 @@ const NumericInput = styled.input`
 	border-radius: 16px;
 `;
 
-export default Play;
+export default Play

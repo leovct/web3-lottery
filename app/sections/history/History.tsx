@@ -16,32 +16,32 @@ const History: FC = () => {
 					<tr>
 						<td>6</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>22Ξ</td>
+						<td>22 MATIC</td>
 					</tr>
 					<tr>
 						<td>5</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>17Ξ</td>
+						<td>17 MATIC</td>
 					</tr>
 					<tr>
 						<td>4</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>9Ξ</td>
+						<td>9 MATIC</td>
 					</tr>
 					<tr>
 						<td>3</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>12Ξ</td>
+						<td>12 MATIC</td>
 					</tr>
 					<tr>
 						<td>2</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>4Ξ</td>
+						<td>4 MATIC</td>
 					</tr>
 					<tr>
 						<td>1</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>1Ξ</td>
+						<td>1 MATIC</td>
 					</tr>
 				</Table>
 			</MainContainer>
@@ -89,9 +89,13 @@ const Table = styled.table`
 		padding: 8px;
 	}
 
-	tr:nth-child(even){background-color: #f2f2f2;}
+	tr:nth-child(even){
+		background-color: #f2f2f2;
+	}
 
-	tr:hover {background-color: #ddd;}
+	tr:hover {
+		background-color: #ddd;
+	}
 
 	th {
 		padding-top: 12px;
@@ -101,4 +105,4 @@ const Table = styled.table`
 	}
 `
 
-export default History;
+export default History
