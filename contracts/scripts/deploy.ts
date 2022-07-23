@@ -21,6 +21,7 @@ async function main() {
 
     await hre.run("verify:verify", {
       address: contract.address,
+      constructorArguments: [owner.address],
     })
   }
 }
