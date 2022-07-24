@@ -125,6 +125,8 @@ contract Avocado {
 			rounds[currentRoundId].winner = winnerAddress;
 			emit RoundEnded(currentRoundId, winnerAddress, round.balance);
 
+			// TODO: these two functions could be exploited by a re-entrancy exploit! patch this either with mutex?
+			// https://betterprogramming.pub/solidity-smart-contract-security-preventing-reentrancy-attacks-fc729339a3ff
 			// Send the rest of the money to the team.
 			(bool sent,) = address(owner).call{value: round.balance / 4}("");
 			require(sent, "Failed to send Ether");
