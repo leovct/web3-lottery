@@ -11,16 +11,21 @@ const Play: FC = () => {
 				<BetContainer>
 					<NumericInput type="string" placeholder="Your guess..."/>
 					<Button
-						onClick={() => alert('You clicked on the button!')}
+						onClick={() => alert('You clicked on the first button!')}
 					>Play!</Button>
 				</BetContainer>
 
-				<p className="small colored bold underline">Round ends on July 22, 2022 at 8pm (UTC)</p>
+				<p className="small colored bold underline">Round #2 ends on July 22, 2022 at 8pm (UTC)</p>
 			</MainContainer>
 
 			<InfoContainer className="small">
-				<p><span className="bold">Last winner</span>: 0xbFe2...5A (10 MATIC)</p>
+				<p><span className="bold">Last winner (round #1)</span>: 0xbFe2...5A (10 MATIC)</p>
 				<p><span className="bold">Biggest amount won so far</span>: 120 MATIC</p>
+				<Button2
+					onClick={() => alert('You clicked on the second button!')}
+				>
+					{">> Get my award! <<"}
+				</Button2>
 			</InfoContainer>
 		</Container>
 	)
@@ -93,13 +98,29 @@ const Button = styled.button`
   }
 `
 
+const Button2 = styled(Button)`
+	/* Layout */
+	width: 400px;
+	margin-top: 20px;
+	
+	/* Color */
+	background: #e3dcd0;
+	color: #4d3636;
+	border: 1px solid #4d3636;
+
+	&:hover {
+		background: #4d3636;
+		color: #e3dcd0;
+	}
+`
+
 const NumericInput = styled.input`
 	/* Remove default styling */
 	border: none;
 
 	/* Layout */
   height: 80px;
-  width: 320px;
+  width: 400px;
 	text-align: center; 
 
 	/* Color */
