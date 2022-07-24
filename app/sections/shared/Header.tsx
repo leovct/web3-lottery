@@ -27,7 +27,7 @@ const Container = styled.div`
 	margin: 40px;
 
 	/* Color */
-	color: #84aa21;
+	color: #94cc80;
 `
 
 const TitleContainer = styled.div`

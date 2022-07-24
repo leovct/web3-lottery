@@ -1,10 +1,11 @@
 import { FC } from "react"
 import styled from "styled-components"
 
-const History: FC = () => {
+const Winners: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="colored underline">History</p>
+			<p id="subtitle" className="large colored">Last winners of the 🥑</p>
+			<p className="medium italic">{"Only real avocados are listed here... Are you the next choosen one?"}</p>
 
 			<MainContainer>
 				<Table>
@@ -46,8 +47,8 @@ const History: FC = () => {
 				</Table>
 			</MainContainer>
 
-			<p id="subtitle" className="colored">
-				See more rounds on the <a className="colored underline" href="https://polygonscan.com/" target="_blank" rel="noreferrer">blockchain explorer</a>...
+			<p id="subtitle" className="small">
+				See more on the <a className="colored" href="https://polygonscan.com/" target="_blank" rel="noreferrer">blockchain explorer</a>
 			</p>
 		</Container>
 	)
@@ -81,28 +82,30 @@ const Table = styled.table`
 	width: 100%;
 
 	/* Text */
+	font-size: 17px;
 	text-align: center;
 
 	/* Table */
+	border-collapse: collapse;
+
+	th, td {
+		border: 1px solid black;
+	}
+
+	th {
+		background-color: #94cc80;
+		color: #e3dcd0;
+		font-size: 26px;
+	}
+	
 	td, th {
 		border: 1px solid #ddd;
 		padding: 8px;
 	}
-
-	tr:nth-child(even){
+	
+	tr:nth-child(even) {
 		background-color: #f2f2f2;
-	}
-
-	tr:hover {
-		background-color: #ddd;
-	}
-
-	th {
-		padding-top: 12px;
-		padding-bottom: 12px;
-		background-color: #84aa21;
-		color: white;
 	}
 `
 
-export default History
+export default Winners

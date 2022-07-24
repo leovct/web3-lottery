@@ -4,21 +4,24 @@ import styled from "styled-components"
 const Play: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="colored italic">May the power of the avocado be with you...</p>
+			<p id="subtitle" className="large colored">May the (🥑) force be with you!</p>
+			<p className="medium italic">{"Bet on a number and win the jackpot if you're lucky! What are you waiting for?!"}</p>
 
 			<MainContainer>
 				<BetContainer>
-					<NumericInput type="string" placeholder="your bet?"/>
+					<NumericInput type="string" placeholder="Your guess..."/>
 					<Button
 						onClick={() => alert('You clicked on the button!')}
-					>submit</Button>
+					>Play!</Button>
 				</BetContainer>
 
-				<p className="colored underline">Round ends on July 22, 2022 at 8pm UTC</p>
+				<p className="small colored bold underline">Round ends on July 22, 2022 at 8pm (UTC)</p>
 			</MainContainer>
 
-			<p>Last winner: 0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A won 10 MATIC</p>
-			<p>Biggest amount won so far: 120 MATIC</p>
+			<InfoContainer className="small">
+				<p><span className="bold">Last winner</span>: 0xbFe2...5A (10 MATIC)</p>
+				<p><span className="bold">Biggest amount won so far</span>: 120 MATIC</p>
+			</InfoContainer>
 		</Container>
 	)
 }
@@ -38,7 +41,7 @@ const Container = styled.div`
 const MainContainer = styled.div`
 	/* Layout */
 	display: flex;
-	margin: 80px 0px 40px 0px;
+	margin: 40px 0px 40px 0px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -51,14 +54,20 @@ const BetContainer = styled.div`
 	gap: 40px;
 `
 
+const InfoContainer = styled.div`
+	/* Layout */
+	text-align: center;
+	margin: 0px;
+`
+
 const Button = styled.button`
 	/* Layout */
   height: 80px;
   width: 180px;
 
 	/* Color */
-	background: #d16c3c;
-	color: white;
+	background: #4d3636;
+	color: #e3dcd0;
 
 	/* Text */
 	font-size: 26px;
@@ -75,8 +84,8 @@ const Button = styled.button`
 	cursor: pointer;
 
 	&:hover {
-    background: #84aa21;
-		color: black;
+		background: #94cc80;
+		color: #e3dcd0;
   }
 
   &:active {
@@ -94,15 +103,15 @@ const NumericInput = styled.input`
 	text-align: center; 
 
 	/* Color */
-	background: #84aa21;
-	color: white;
+	background: #94cc80;
+	color: #e3dcd0;
 
 	/* Text */
 	font-size: 26px;
 	font-weight: bold;
 
 	::placeholder {
-		color: #d3d3d3;
+		color: #e3dcd0;
 	}
 
 	/* Border */

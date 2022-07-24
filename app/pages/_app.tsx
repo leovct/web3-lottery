@@ -7,6 +7,7 @@ import {
 	connectorsForWallets,
 	wallet,
 	lightTheme,
+	darkTheme,
 } from "@rainbow-me/rainbowkit"
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi"
 import { alchemyProvider } from "wagmi/providers/alchemy"
@@ -56,7 +57,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 				chains={chains}
 				showRecentTransactions={true}
 				theme={lightTheme({
-					accentColor: "#84aa21",
+					accentColor: "#4d3636",
+					accentColorForeground: "#e3dcd0",
 					overlayBlur: "small",
 				})}
 				coolMode

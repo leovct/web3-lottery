@@ -31,13 +31,13 @@ const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
 						The Rules
 					</Button>
 					<Button
-						className={`${currentPage == "history" ? "highlight" : ""}`}
-						onClick={() => handleClick("history")}
+						className={`${currentPage == "winners" ? "highlight" : ""}`}
+						onClick={() => handleClick("winners")}
 					>
-						History
+						Winners
 					</Button>
 				</Menu>
-				<p className="small colored italic">
+				<p className="small colored2 italic">
 					made with ❤️ by <a className="colored underline" href="https://twitter.com/leoovct" target="_blank" rel="noreferrer">@leovct</a>
 				</p>
 			</MainContainer>
@@ -70,7 +70,7 @@ const Container = styled.div`
 	/* Text */
 	.highlight {
 		font-weight: bold;
-		color: #84aa21;
+		color: #94cc80;
 	}
 `
 
@@ -99,7 +99,7 @@ const Button = styled.button`
 	cursor: pointer;
 	
 	&:hover, &:focus {
-		color: #84aa21;
+		color: #94cc80;
 	}
 `
 

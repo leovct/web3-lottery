@@ -4,14 +4,14 @@ import styled from "styled-components"
 const Rules: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="colored underline	">The Rules</p>
+			<p id="subtitle" className="large colored	">The 4 rules of the 🥑</p>
+			<p className="medium italic">Everything you need to become a real avocado!</p>
 
-			<MainContainer>
-				<p>1) Each round, people bet <span className="underline">once</span> on a number (integer and positive).</p>
-				<p>2) At the end of the round, we randomly pick a number using Chainlink VRF. The first person that bet on this number wins the jackpot.</p>
-				<p>3) If there is no winner, then we randomly choose a winner among the players.</p>
-				<p>4) A round lasts exactly 24 hours.</p>
-				<p>5) In order to finance maintenance and operational costs, the winner takes 92% of the stake, the team behind the project gets 5% and the contract keeps 3%.</p>
+			<MainContainer className="small">
+				<p>{">"} Each round, people bet <span className="bold">once</span> on a number (integer and positive).</p>
+				<p>{">"} At the end of the round, the contract <span className="bold">randomly picks a number using Chainlink VRF</span>. The first person that bet on this number wins the jackpot. If no one has thought of that number, no problem! The contract then randomly chooses a winner among the players.</p>
+				<p>{">"} A round lasts exactly <span className="bold">24 hours</span>.</p>
+				<p>{">"} In order to finance maintenance and operational costs, <span className="bold">the winner takes 92% of the stake</span>, the team behind the project gets 5% and the contract keeps 3%.</p>
 			</MainContainer>
 		</Container>
 	)
@@ -36,8 +36,11 @@ const MainContainer = styled.div`
 	margin-top: 40px;
 	flex-direction: column;
 	justify-content: center;
-	gap: 10px;
-	text-align: center;
+	gap: 40px;
+
+	p {
+		margin: 0px;
+	}
 `
 
 export default Rules
