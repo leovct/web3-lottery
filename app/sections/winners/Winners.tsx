@@ -82,7 +82,7 @@ const Table = styled.table`
 	width: 100%;
 
 	/* Text */
-	font-size: 17px;
+	font-size: 18px;
 	text-align: center;
 
 	/* Table */
@@ -95,7 +95,7 @@ const Table = styled.table`
 	th {
 		background-color: #94cc80;
 		color: #e3dcd0;
-		font-size: 26px;
+		font-size: 28px;
 	}
 	
 	td, th {
