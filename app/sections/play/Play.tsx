@@ -103,7 +103,7 @@ const Play: FC = () => {
 						onInput={(e: { target: { value: React.SetStateAction<number | undefined> } }) => setTicketAmount(e.target.value)}
 					/>
 					<Button
-						onClick={() => isConnected ? (ticketAmount ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
+						onClick={() => isConnected ? (ticketAmount > 0 ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
 					>
 						Play!
 					</Button>
