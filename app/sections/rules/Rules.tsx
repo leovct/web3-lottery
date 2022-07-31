@@ -1,5 +1,6 @@
 import { FC } from "react"
 import styled from "styled-components"
+import { MAX_TICKETS, TICKET_PRICE } from "../../constants/game"
 
 const Rules: FC = () => {
 	return (
@@ -8,8 +9,8 @@ const Rules: FC = () => {
 			<p className="medium italic">Everything you need to become a real avocado!</p>
 
 			<MainContainer className="small">
-				<p>{">"} Each round, people bet <span className="bold">once</span> on a number (integer and positive).</p>
-				<p>{">"} At the end of the round, the contract <span className="bold">randomly picks a number using Chainlink VRF</span>. The first person that bet on this number wins the jackpot. If no one has thought of that number, no problem! The contract then randomly chooses a winner among the players.</p>
+				<p>{">"} <span className="bold">{MAX_TICKETS} tickets</span> are available per round, each at {TICKET_PRICE} MATIC.</p>
+				<p>{">"} At the end of the round, the contract <span className="bold">randomly picks a number using Chainlink VRF</span>. The lucky owner of the winning ticket wins the jackpot!!</p>
 				<p>{">"} A round lasts exactly <span className="bold">24 hours</span>.</p>
 				<p>{">"} In order to finance maintenance and operational costs, <span className="bold">the winner takes 92% of the stake</span>, the team behind the project gets 5% and the contract keeps 3%.</p>
 			</MainContainer>
