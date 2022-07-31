@@ -98,7 +98,7 @@ contract Lottery {
 
 		// Draw a random number between 1 and ticketsSold
 		// TODO: Use Chainlink Oracle
-		uint256 winningTicket = 10;
+		uint256 winningTicket = 1;
 
 		// Find the winner
 		uint256 ticketCounter = round.entries[0].tickets;
