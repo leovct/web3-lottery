@@ -110,7 +110,7 @@ const Play: FC = () => {
 				</BetContainer>
 
 				<p className="small colored bold">Tickets sold: {ticketsSold} / {MAX_TICKETS} (1x ticket = {TICKET_PRICE} MATIC)</p>
-				<p className="small colored bold">Round #{round} {countdown ? "end in" + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
+				<p className="small colored bold">Round #{round} {countdown ? "ends in " + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
 			</MainContainer>
 
 			<InfoContainer className="small">
