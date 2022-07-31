@@ -5,6 +5,7 @@ import styled from "styled-components"
 import { useContractRead, useBalance, useAccount } from "wagmi"
 import { BLOCK_EXPLORER_URL, LOTTERY_ADDRESS, LOTTERY_CONFIG, LOTTERY_EXPLORER_URL } from "../../constants/address"
 import { MAX_TICKETS, TICKET_PRICE } from "../../constants/game"
+import { formatTime } from "../../utils/time"
 
 function display(x: (number | string | boolean | undefined)): (number | string | boolean) {
 	return typeof x === "undefined" ? "???" : x
@@ -12,13 +13,6 @@ function display(x: (number | string | boolean | undefined)): (number | string |
 
 function displayDate(d: Date | undefined): string {
 	return typeof d === "undefined" ? "???" : d.toUTCString()
-}
-
-function formatTime(time: number): string {
-	const hours = Math.floor(time / (60 * 60))
-	const minutes = Math.floor(time / 60 - hours * 60)
-	const seconds = Math.floor(time - minutes * 60 - hours * 60*60)
-	return `${hours}h ${minutes}min ${seconds}s`
 }
 
 const Dashboard: FC = () => {
@@ -207,7 +201,7 @@ const Dashboard: FC = () => {
 					<ul>
 						<li>Round number: {display(currentRound)}</li>
 						<li>Tickets sold: {display(currentTicketsSold)} / {MAX_TICKETS}</li>
-						<li>Total value: {display(currentTicketsSold ? currentTicketsSold * TICKET_PRICE : 0)} ETH</li>
+						<li>Total value: {display(currentTicketsSold ? currentTicketsSold * TICKET_PRICE : 0)} MATIC</li>
 						<li>Number of entries: {display(currentNumberOfEntries)}</li>
 						<li>Countdown: {currentCountdown ? formatTime(currentCountdown) : "expired"}</li>
 						<li>End date: {displayDate(currentEndDate)}</li>
@@ -220,7 +214,7 @@ const Dashboard: FC = () => {
 					<ul>
 						<li>Round number: {display(previousRound)}</li>
 						<li>Tickets sold: {display(previousTicketsSold)} / {MAX_TICKETS}</li>
-						<li>Total value: {display(previousTicketsSold ? previousTicketsSold * TICKET_PRICE : 0)} ETH</li>
+						<li>Total value: {display(previousTicketsSold ? previousTicketsSold * TICKET_PRICE : 0)} MATIC</li>
 						<li>Number of entries: {display(previousNumberOfEntries)}</li>
 						<li>Countdown: expired</li>
 						<li>End date: {displayDate(previousEndDate)}</li>
@@ -232,8 +226,8 @@ const Dashboard: FC = () => {
 				<ColumnContainer>
 					<h1>Balances</h1>
 					<ul>
-						<li>Contract: {display(contractBalance)} ETH</li>
-						<li>Owner: {display(ownerBalance)} ETH</li>
+						<li>Contract: {display(contractBalance)} MATIC</li>
+						<li>Owner: {display(ownerBalance)} MATIC</li>
 					</ul>
 				</ColumnContainer>
 					<ColumnContainer>

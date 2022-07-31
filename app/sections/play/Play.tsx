@@ -1,30 +1,122 @@
+import { ethers } from "ethers"
+import React from "react"
 import { FC } from "react"
 import styled from "styled-components"
+import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite } from "wagmi"
+import { LOTTERY_CONFIG } from "../../constants/address"
+import { MAX_TICKETS, TICKET_PRICE } from "../../constants/game"
+import { formatTime } from "../../utils/time"
 
 const Play: FC = () => {
+	const [round, setRound] = React.useState<number>(1)
+	const [previousRound, setPreviousRound] = React.useState<number>(0)
+	const [ticketsSold, setTicketsSold] = React.useState<number>(0)
+	const [endDate, setEndDate] = React.useState<Date>(new Date())
+	const [time, setTime] = React.useState<Date>(new Date())
+	const [countdown, setCountdown] = React.useState<number>(0)
+	const [lastWinner, setLastWinner] = React.useState<string>("")
+	const [lastAmountWon, setLastAmountWon] = React.useState<number>(0)
+
+	const [ticketAmount, setTicketAmount] = React.useState<number>()
+
+	const { address, isConnected } = useAccount()
+
+	const { data: roundData } = useContractRead({
+    ...LOTTERY_CONFIG,
+    functionName: "rounds",
+		args: [round],
+		watch: true,
+  })
+
+	const { data: previousRoundData } = useContractRead({
+    ...LOTTERY_CONFIG,
+    functionName: "rounds",
+		args: [previousRound],
+		watch: true,
+  })
+
+	const { data: currentRound } = useContractRead({
+    ...LOTTERY_CONFIG,
+    functionName: "currentRound",
+		args: [],
+		watch: true,
+  })
+
+	const { config } = usePrepareContractWrite({
+    ...LOTTERY_CONFIG,
+    functionName: 'enter',
+		args: [ticketAmount],
+		overrides: {
+			from: isConnected ? address : "",
+			value: ticketAmount ? ethers.utils.parseEther((ticketAmount * TICKET_PRICE).toString()) : 0,
+		},
+  })
+
+	const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+	React.useEffect(() => {
+		if (currentRound) {
+			const _currentRound = currentRound.toNumber()
+			setRound(_currentRound)
+			if (_currentRound > 1) {
+				setPreviousRound(_currentRound - 1)
+			}
+    }
+  }, [currentRound, round])
+
+	React.useEffect(() => {
+    if (roundData) {
+			setTicketsSold(roundData.ticketsSold.toNumber())
+			setEndDate(new Date(roundData.endDate.toNumber() * 1000))
+    }
+  }, [roundData, ticketsSold])
+
+	React.useEffect(() => {
+    if (previousRoundData) {
+			setLastWinner(previousRoundData.winnerAddress.toString())
+			setLastAmountWon(previousRoundData.ticketsSold.toNumber() * TICKET_PRICE)
+    }
+  }, [previousRoundData])
+
+	React.useEffect(() => {
+		setTimeout(() => {
+			setTime(new Date())
+
+			const _countdown = endDate ? (time > endDate ? 0 : Math.abs(endDate.getTime() - time.getTime())) : 0
+			setCountdown(_countdown)
+		}, 1000)
+	}, [endDate, time])
+
 	return (
 		<Container>
 			<p id="subtitle" className="large colored">May the (🥑) force be with you!</p>
-			<p className="medium italic">{"Bet on a number and win the jackpot if you're lucky! What are you waiting for?!"}</p>
+			<p className="medium italic">{"Buy tickets and win the lottery if you're lucky! What are you waiting for?!"}</p>
 
 			<MainContainer>
 				<BetContainer>
-					<NumericInput type="string" placeholder="Your guess..."/>
+					<NumericInput
+						type="number"
+						placeholder="How many tickets do you want?"
+						min={0}
+						max={MAX_TICKETS}
+						value={ticketAmount}
+						onInput={(e: { target: { value: React.SetStateAction<number | undefined> } }) => setTicketAmount(e.target.value)}
+					/>
 					<Button
-						onClick={() => alert('You clicked on the first button!')}
+						onClick={() => isConnected ? (ticketAmount ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
 					>
 						Play!
 					</Button>
 				</BetContainer>
 
-				<p className="small colored bold underline">Round #2 ends on July 22, 2022 at 8pm (UTC)</p>
+				<p className="small colored bold">Tickets sold: {ticketsSold} / {MAX_TICKETS} (1x ticket = {TICKET_PRICE} MATIC)</p>
+				<p className="small colored bold">Round #{round} {countdown ? "end in" + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
 			</MainContainer>
 
 			<InfoContainer className="small">
-				<p><span className="bold">Last winner (round #1)</span>: 0xbFe2...5A (10 MATIC)</p>
-				<p><span className="bold">Biggest amount won so far</span>: 120 MATIC</p>
+				<p><span className="bold">Last winner (round #{previousRound})</span>: {lastWinner} ({lastAmountWon} MATIC)</p>
 				<Button2
-					onClick={() => alert('You clicked on the second button!')}
+					onClick={() => alert("You clicked on the second button!")}
 				>
 					{">> Get my award! <<"}
 				</Button2>
@@ -48,11 +140,15 @@ const Container = styled.div`
 const MainContainer = styled.div`
 	/* Layout */
 	display: flex;
-	margin: 40px 0px 40px 0px;
+	margin: 20px 0px 20px 0px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
+
+	p {
+		margin: 20px 0px 0px 0px;
+	}
 `
 
 const BetContainer = styled.div`
@@ -64,7 +160,7 @@ const BetContainer = styled.div`
 const InfoContainer = styled.div`
 	/* Layout */
 	text-align: center;
-	margin: 0px;
+	margin: 20px 0px 0px 0px;
 `
 
 const Button = styled.button`
@@ -113,7 +209,7 @@ const NumericInput = styled.input`
 
 	/* Layout */
   height: 80px;
-  width: 400px;
+  width: 500px;
 	text-align: center; 
 
 	/* Color */
