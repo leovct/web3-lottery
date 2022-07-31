@@ -50,8 +50,6 @@ contract Lottery {
 	event RoundStarted(uint256 round);
 	event NewEntry(uint256 indexed round, address playerAddress, uint256 indexed tickets);
 	event RoundEnded(uint256 indexed round, address indexed winner, uint256 indexed jackpot);
-
-	event OwnershipTransfered(address newOwner);
 	event KeeperAddressUpdated(address newAddress);
 
 	/******************************************************************
