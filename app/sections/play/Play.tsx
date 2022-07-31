@@ -97,13 +97,14 @@ const Play: FC = () => {
 					<NumericInput
 						type="number"
 						placeholder="How many tickets do you want?"
-						min={0}
 						max={MAX_TICKETS}
 						value={ticketAmount}
-						onInput={(e: { target: { value: React.SetStateAction<number | undefined> } }) => setTicketAmount(e.target.value)}
+						onInput={
+							(e: React.ChangeEvent<HTMLInputElement>) => setTicketAmount(Number(e.target.value))
+						}
 					/>
 					<Button
-						onClick={() => isConnected ? (ticketAmount > 0 ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
+						onClick={() => isConnected ? ((typeof ticketAmount === "undefined" ? 0 : ticketAmount) > 0 ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
 					>
 						Play!
 					</Button>
