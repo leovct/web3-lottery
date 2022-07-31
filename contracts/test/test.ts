@@ -121,6 +121,11 @@ describe("Lottery", function () {
 
       const roundNumber = await contract.currentRound()
       expect(roundNumber).to.equal(2)
+
+      const round1EndDate = round.endDate
+      const round2 = await contract.rounds(2)
+      const round2EndDate = round2.endDate
+      expect(round2EndDate).equal(round1EndDate.add(60*5))
       
       // Check again the account balances
       // The jackpot value is equal to 0.75 ether

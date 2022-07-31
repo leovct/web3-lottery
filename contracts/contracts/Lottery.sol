@@ -30,6 +30,7 @@ contract Lottery {
 	struct Round {
 		Entry[] entries;
 		uint256 ticketsSold;
+		uint256 endDate;
 		address winnerAddress;
 		bool moneySentToTeam;
 		bool moneySentToWinner;
@@ -67,6 +68,8 @@ contract Lottery {
 
 		// Start the first round
 		emit RoundStarted(currentRound);
+		Round storage round = rounds[currentRound];
+		round.endDate = block.timestamp + ROUND_LENGTH;
 	}
 
 	/**
@@ -89,14 +92,14 @@ contract Lottery {
 	 */
 	function draw() external {
 		require(msg.sender == keeperAddress, "UNAUTHORISED");
-		require(block.timestamp >= deployDate + ROUND_LENGTH * currentRound, "ROUND_NOT_OVER");
+		Round storage round = rounds[currentRound];
+		require(block.timestamp >= round.endDate, "ROUND_NOT_OVER");
 
 		// Draw a random number between 1 and ticketsSold
 		// TODO: Use Chainlink Oracle
 		uint256 winningTicket = 10;
 
 		// Find the winner
-		Round storage round = rounds[currentRound];
 		uint256 ticketCounter = round.entries[0].tickets;
 		uint256 entryCounter;
 		while (winningTicket > ticketCounter) {
@@ -111,6 +114,7 @@ contract Lottery {
 		emit RoundEnded(currentRound, winnerAddress, ticketsSold);
 		currentRound++;
 		emit RoundStarted(currentRound);
+		rounds[currentRound].endDate = deployDate + ROUND_LENGTH * currentRound;
 
 		// Send the fees to the team
 		uint256 totalValue = round.ticketsSold * TICKET_PRICE;
