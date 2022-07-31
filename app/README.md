@@ -6,6 +6,7 @@ This Next.js project contains the Avocado web app and tests (if I have enough ti
 
 ```
 $ npm install
+$ mv .env.example .env.local // fill in the requested values
 ```
 
 ## Run the app locally
