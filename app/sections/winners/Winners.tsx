@@ -1,5 +1,6 @@
 import { FC } from "react"
 import styled from "styled-components"
+import { LOTTERY_EXPLORER_URL } from "../../constants/address"
 
 const Winners: FC = () => {
 	return (
@@ -43,7 +44,7 @@ const Winners: FC = () => {
 			</MainContainer>
 
 			<p id="subtitle" className="small">
-				See more on the <a className="colored" href="https://polygonscan.com/" target="_blank" rel="noreferrer">blockchain explorer</a>
+				See more on the <a className="colored" href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
 			</p>
 		</Container>
 	)
