@@ -115,7 +115,7 @@ const Play: FC = () => {
 			</MainContainer>
 
 			<InfoContainer className="small">
-				<p><span className="bold">Last winner (round #{previousRound})</span>: {lastWinner} ({lastAmountWon} MATIC)</p>
+				<p>{(round > 1 && `Last winner (round #${previousRound}): ${lastWinner} (${lastAmountWon} MATIC)`)}</p>
 				<Button2
 					onClick={() => alert("You clicked on the second button!")}
 				>
@@ -148,7 +148,7 @@ const MainContainer = styled.div`
 	gap: 10px;
 
 	p {
-		margin: 20px 0px 0px 0px;
+		margin: 10px 0px 0px 0px;
 	}
 `
 
@@ -200,8 +200,8 @@ const Button = styled.button`
 
 const Button2 = styled(Button)`
 	/* Layout */
-	width: 400px;
-	margin-top: 20px;
+	width: 300px;
+	margin-top: 10px;
 `
 
 const NumericInput = styled.input`
