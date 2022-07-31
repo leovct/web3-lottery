@@ -1,6 +1,6 @@
 import lottery from "../abi/Lottery.json"
 
-export const LOTTERY_ADDRESS: string = "0x99142D8E2384FED1FC18b4a292F9eE6082eD2ab8"
+export const LOTTERY_ADDRESS: string = "0x886dd0094f0cEa7a7f1568115AC2181f629D8031"
 
 export const BLOCK_EXPLORER_URL: string = "https://mumbai.polygonscan.com/"
 

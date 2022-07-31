@@ -13,7 +13,7 @@ contract Lottery {
 	/******************************************************************/
 	uint256 immutable TICKET_PRICE = 0.01 ether;
 	uint256 immutable TICKET_NUMBER = 100;
-	uint256 immutable ROUND_LENGTH = 5 minutes;
+	uint256 immutable ROUND_LENGTH = 15 minutes;
 	
 	// Fees are a percentage of the amount earned by the winner 	
 	uint256 immutable TEAM_FEE = 7;
