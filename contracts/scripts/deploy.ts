@@ -1,15 +1,15 @@
 import { ethers, network } from "hardhat"
-import { Avocado__factory } from "../typechain-types"
+import { Lottery__factory } from "../typechain-types"
 
 const hre = require("hardhat")
 
 async function main() {
   const [owner] = await ethers.getSigners()
-  const ContractFactory: Avocado__factory = await ethers.getContractFactory("Avocado")
+  const ContractFactory: Lottery__factory = await ethers.getContractFactory("Lottery")
   const contract = await ContractFactory.deploy(owner.address)
   await contract.deployed()
   console.log(
-    `Avocado contract deployed to the ${network.name} blockchain: ${contract.address}`
+    `Lottery contract deployed to the ${network.name} blockchain: ${contract.address}`
   )
 
   // Verify the contract on https://kovan-optimistic.etherscan.io/.

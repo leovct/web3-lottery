@@ -1,17 +1,18 @@
 import { expect } from "chai"
 import { ethers } from "hardhat"
-import { Avocado, Avocado__factory } from "../typechain-types"
+import { Lottery, Lottery__factory } from "../typechain-types"
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers"
 
-describe("Avocado", function () {
-  let owner: any, keeper: any, user: any
-  let contract: Avocado
+describe("Lottery", function () {
+  let owner: SignerWithAddress, keeper: SignerWithAddress, user1: SignerWithAddress, user2: SignerWithAddress
+  let contract: Lottery
 
   beforeEach(async function () {
     // Get signers.
-    [owner, keeper, user] = await ethers.getSigners()
+    [owner, keeper, user1, user2] = await ethers.getSigners()
 
     // Deploy the contract.
-    const ContractFactory: Avocado__factory = await ethers.getContractFactory("Avocado")
+    const ContractFactory: Lottery__factory = await ethers.getContractFactory("Lottery")
     contract = await ContractFactory.deploy(keeper.address)
     await contract.deployed()
   })
@@ -20,111 +21,133 @@ describe("Avocado", function () {
 	| Core methods
 	/******************************************************************/
 
-  describe("Bet", async function () {
-    const guess = ethers.utils.id("3")
+  describe("Enter", async function () {
+    it("Should buy tickets", async function () {
+      // User buys 50 tickets
+      await expect(contract.connect(user1).enter(50, { value: ethers.utils.parseEther("0.5") }))
+        .to.emit(contract, "NewEntry")
+        .withArgs(1, user1.address, 50)
+      
+      // Check that the contract's state has been updated properly
+      let round = await contract.rounds(1)
+      expect(round.ticketsSold).to.equal(50)
 
-    it("Should place a bet", async function () {
-      // Check that the contract is in its initial state
-      let registeredGuess = await contract.getPlayerGuess(owner.address, 1)
-      expect(registeredGuess).to.equal(ethers.constants.HashZero)
+      let entries = await contract.getEntries(1)
+      expect(entries).to.equal(1)
 
-      let numberOfPlayers = await contract.getNumberOfPlayers()
-      expect(numberOfPlayers).to.equal(0)
+      let entry = await contract.getEntry(1, 0)
+      expect(entry[0]).to.equal(user1.address)
+      expect(entry[1].toNumber()).to.equal(50)
 
       let balance = await ethers.provider.getBalance(contract.address)
-      expect(balance).to.equal(0)
+      expect(balance).to.equal(ethers.utils.parseEther("0.5"))
 
-      // Place a bet
-      await expect(contract.bet(guess, { value: ethers.utils.parseEther("0.0001") }))
-        .to.emit(contract, "BetPlaced")
-        .withArgs(1, owner.address, guess)
+      // Another user buys 25 tickets
+      await expect(contract.connect(user2).enter(25, { value: ethers.utils.parseEther("0.25") }))
+        .to.emit(contract, "NewEntry")
+        .withArgs(1, user2.address, 25)
       
-      // Check that the contract"s state has been updated with the correct values
-      registeredGuess = await contract.getPlayerGuess(owner.address, 1)
-      expect(registeredGuess).to.equal(guess)
+      // Check that the contract's state has been updated properly
+      round = await contract.rounds(1)
+      expect(round.ticketsSold).to.equal(75)
 
-      numberOfPlayers = await contract.getNumberOfPlayers()
-      expect(numberOfPlayers).to.equal(1)
+      entries = await contract.getEntries(1)
+      expect(entries).to.equal(2)
+
+      entry = await contract.getEntry(1, 1)
+      expect(entry[0]).to.equal(user2.address)
+      expect(entry[1].toNumber()).to.equal(25)
 
       balance = await ethers.provider.getBalance(contract.address)
-      expect(balance).to.equal(ethers.utils.parseEther("0.0001"))
+      expect(balance).to.equal(ethers.utils.parseEther("0.75"))
     })
 
-    it("Should fail when betting with less than the minimal amount", async function () {
-      await expect(contract.bet(guess))
-        .to.be.revertedWithCustomError(contract, "NotEnoughMoneyBet")
+    it("Should fail to buy tickets when not sending enough money", async function () {
+      // User tries to buy 100 tickets without sending enough money
+      await expect(contract.connect(user1).enter(100, { value: ethers.utils.parseEther("0.1") }))
+        .to.be.revertedWith("NOT_ENOUGH_MONEY")
     })
 
-    it("Should fail when trying to place 2 (or more) bets in the same round", async function () {
-      await expect(contract.bet(guess, { value: ethers.utils.parseEther("0.0001") }))
-        .to.emit(contract, "BetPlaced")
-        .withArgs(1, owner.address, guess)
-      
-      let guess2 = ethers.utils.id("11")
-      await expect(contract.bet(guess2, { value: ethers.utils.parseEther("0.0001") }))
-        .to.be.revertedWithCustomError(contract, "PlayerAlreadyBetInThisRound")
+    it("Should fail to buy more tickets than what's available", async function () {
+      // User tries to buy 200 tickets even though there are only 100 tickets available
+      await expect(contract.connect(user1).enter(200, { value: ethers.utils.parseEther("2") }))
+        .to.be.revertedWith("NOT_ENOUGH_TICKETS_LEFT")
     })
-	})
+  })
 
   describe("Draw", async function () {
-    it("Should fail to draw a winner when using another account than the keeper", async function () {
-      await expect(contract.draw())
-        .to.be.revertedWithCustomError(contract, "Unauthorized")
-        .withArgs(owner.address, keeper.address)
-    })
-
-    it("Should fail to draw a winner when the round has not ended", async function () {
-      await expect(contract.connect(keeper).draw())
-        .to.be.revertedWithCustomError(contract, "RoundIsNotOverYet")
-    })
-
-    it("Should draw a winner and send the money to the winner and the team", async function () {
-      // Place a bet
-      const guess = ethers.utils.id("3")
-      await expect(contract.connect(user).bet(guess, { value: ethers.utils.parseEther("0.0001") }))
-        .to.emit(contract, "BetPlaced")
-        .withArgs(1, user.address, guess)
+    it("Should draw a winner, start a new round and send the money", async function () {
+      // User buys 50 tickets
+      await expect(contract.connect(user1).enter(50, { value: ethers.utils.parseEther("0.5") }))
+        .to.emit(contract, "NewEntry")
+        .withArgs(1, user1.address, 50)
+      
+      // Another user buys 25 tickets
+      await expect(contract.connect(user2).enter(25, { value: ethers.utils.parseEther("0.25") }))
+      .to.emit(contract, "NewEntry")
+      .withArgs(1, user2.address, 25)
 
       // Fast forward 5 minutes
       await ethers.provider.send("evm_increaseTime", [60 * 5])
       await ethers.provider.send("evm_mine", [])
 
       // Check the account balances
-      const contractBalanceBeforeTheDraw = await ethers.provider.getBalance(contract.address)
-      expect(contractBalanceBeforeTheDraw).to.equal(ethers.utils.parseEther("0.0001"))
+      // Note that the start balance is set to 10 000 ethers in hardhat
+      const ownerBalanceBeforeDraw = await ethers.provider.getBalance(owner.address)
+      expect(ownerBalanceBeforeDraw).to.be.below(ethers.utils.parseEther("10000"))
 
-      const startBalance = ethers.utils.parseEther("10000")
-      const userBalanceBeforeTheDraw = await ethers.provider.getBalance(user.address)
-      expect(userBalanceBeforeTheDraw).to.be.below(startBalance)
+      const contractBalanceBeforeDraw = await ethers.provider.getBalance(contract.address)
+      expect(contractBalanceBeforeDraw).to.equal(ethers.utils.parseEther("0.75"))
 
-      const ownerBalanceBeforeTheDraw = await ethers.provider.getBalance(owner.address)
-      expect(ownerBalanceBeforeTheDraw).to.be.below(startBalance)
+      const user1BalanceBeforeDraw = await ethers.provider.getBalance(user1.address)
+      expect(user1BalanceBeforeDraw).to.be.below(ethers.utils.parseEther("9999.5"))
+
+      const user2BalanceBeforeDraw = await ethers.provider.getBalance(user2.address)
+      expect(user2BalanceBeforeDraw).to.be.below(ethers.utils.parseEther("9999.75"))
 
       // Draw a winner
+      // Note that at the moment, the winning ticket is set to #10
       await expect(contract.connect(keeper).draw())
         .to.emit(contract, "RoundEnded")
-        .withArgs(1, user.address, ethers.utils.parseEther("0.0001"))
+        .withArgs(1, user1.address, 75)
         .to.emit(contract, "RoundStarted")
         .withArgs(2)
       
+      // Check that the contract's state has been updated properly
+      const round = await contract.rounds(1)
+      expect(round.winnerAddress).to.equal(user1.address)
+      expect(round.moneySentToTeam).to.be.true
+      expect(round.moneySentToWinner).to.be.true
+
+      const roundNumber = await contract.currentRound()
+      expect(roundNumber).to.equal(2)
+      
       // Check again the account balances
-      const contractBalanceAfterTheDraw = await ethers.provider.getBalance(contract.address)
-      expect(contractBalanceAfterTheDraw).to.be.below(contractBalanceBeforeTheDraw)
+      // The jackpot value is equal to 0.75 ether
+      // The team takes 7%, which is around 0.0525 ethers
+      // The contract takes 3%, which represents 0.0225 ethers
+      // The winner keeps the rest (90%), which gives 0.675 ethers
+      const ownerBalanceAfterDraw = await ethers.provider.getBalance(owner.address)
+      expect(ownerBalanceAfterDraw).to.equal(ownerBalanceBeforeDraw.add(ethers.utils.parseEther("0.0525")))
 
-      const userBalanceAfterTheDraw = await ethers.provider.getBalance(user.address)
-      expect(userBalanceAfterTheDraw).to.be.above(userBalanceBeforeTheDraw)
+      const contractBalanceAfterDraw = await ethers.provider.getBalance(contract.address)
+      expect(contractBalanceAfterDraw).to.equal(ethers.utils.parseEther("0.0225"))
 
-      const ownerBalanceAfterTheDraw = await ethers.provider.getBalance(owner.address)
-      expect(ownerBalanceAfterTheDraw).to.be.above(ownerBalanceBeforeTheDraw)
+      const user1BalanceAfterDraw = await ethers.provider.getBalance(user1.address)
+      expect(user1BalanceAfterDraw).to.equal(user1BalanceBeforeDraw.add(ethers.utils.parseEther("0.675")))
 
-      // Check that the user is actually the winner
-      const result = await contract.getWinner(1)
-      expect(result[0]).to.equal(user.address)
-      expect(result[1]).to.equal(ethers.utils.parseEther("0.0001"))
+      const user2BalanceAfterDraw = await ethers.provider.getBalance(user2.address)
+      expect(user2BalanceAfterDraw).to.equal(user2BalanceBeforeDraw)
+    })
 
-      // Check that a new round has started
-      const roundId = await contract.currentRoundId()
-      expect(roundId).to.equal(2)
+    it("Should fail to draw a winner when using another account than the keeper", async function () {
+      await expect(contract.connect(user1).draw())
+        .to.be.revertedWith("UNAUTHORISED")
+    })
+
+    it("Should fail to draw a winner when the round has not ended", async function () {
+      await expect(contract.connect(keeper).draw())
+        .to.be.revertedWith("ROUND_NOT_OVER")
     })
 	})
 
@@ -135,21 +158,20 @@ describe("Avocado", function () {
 	describe("SetKeeper", async function () {
     it("Should update the keeper's address", async function () {
       // Check the value of the keeper's address before the update
-      let keeperAddress = await contract.keeper()
+      let keeperAddress = await contract.keeperAddress()
       expect(keeperAddress).to.equal(keeper.address)
 
-      const tx = await contract.setKeeper(user.address)
+      const tx = await contract.connect(owner).setKeeper(user1.address)
       await tx.wait()
 
       // Check that the keeper's address has been updated
-      keeperAddress = await contract.keeper()
-      expect(keeperAddress).to.equal(user.address)
+      keeperAddress = await contract.keeperAddress()
+      expect(keeperAddress).to.equal(user1.address)
     })
 
-    it("Should fail when trying to update the keeper's address using another account than the owner", async function () {
-      await expect(contract.connect(user).setKeeper(owner.address))
-        .to.be.revertedWithCustomError(contract, "Unauthorized")
-        .withArgs(user.address, owner.address)
+    it("Should fail to update the keeper's address using another account than the owner", async function () {
+      await expect(contract.connect(user1).setKeeper(owner.address))
+        .to.be.revertedWith("UNAUTHORISED")
     })
   })
 })

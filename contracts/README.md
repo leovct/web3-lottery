@@ -1,9 +1,9 @@
-# Avocado Smart Contracts
+# Lottery Smart Contracts
 
 This Hardhat project contains the contract, tests, deployment and verification script on the blockchain (local or on Polygon Mumbai) as well as CI/CD pipelines to test, audit and deploy the contract.
 
-## Latest deployment
-https://mumbai.polygonscan.com/address/0x22e4b51519a2c37d1a3024d2333aa494ea2759e4
+## Latest deployment (Polygon Mumbai)
+https://mumbai.polygonscan.com/address/0x5e2D1C57301Cc823CbBCe3AA0dF6169F0EfEcD41
 
 ## Getting started
 ```
@@ -24,59 +24,59 @@ Compiled 1 Solidity file successfully
 ```
 $ npx hardhat test
 
-Avocado
-    Bet
-      ✓ Should place a bet
-      ✓ Should fail when betting with less than the minimal amount
-      ✓ Should fail when trying to place 2 (or more) bets in the same round
+  Lottery
+    Enter
+      ✓ Should buy tickets
+      ✓ Should fail to buy tickets when not sending enough money
+      ✓ Should fail to buy more tickets than what's available
     Draw
+      ✓ Should draw a winner, start a new round and send the money
       ✓ Should fail to draw a winner when using another account than the keeper
       ✓ Should fail to draw a winner when the round has not ended
-      ✓ Should draw a winner and send the money to the winner and the team
     SetKeeper
       ✓ Should update the keeper's address
-      ✓ Should fail when trying to update the keeper's address using another account than the owner
+      ✓ Should fail to update the keeper's address using another account than the owner
 
 ·--------------------------|---------------------------|-------------|-----------------------------·
 |   Solc version: 0.8.9    ·  Optimizer enabled: true  ·  Runs: 200  ·  Block limit: 30000000 gas  │
 ···························|···························|·············|······························
-|  Methods                 ·               8 gwei/gas                ·       1527.18 usd/eth       │
+|  Methods                 ·               4 gwei/gas                ·       1713.94 usd/eth       │
 ·············|·············|·············|·············|·············|···············|··············
 |  Contract  ·  Method     ·  Min        ·  Max        ·  Avg        ·  # calls      ·  usd (avg)  │
 ·············|·············|·············|·············|·············|···············|··············
-|  Avocado   ·  bet        ·          -  ·          -  ·     115114  ·            6  ·       1.41  │
+|  Lottery   ·  draw       ·          -  ·          -  ·      87525  ·            3  ·       0.60  │
 ·············|·············|·············|·············|·············|···············|··············
-|  Avocado   ·  draw       ·          -  ·          -  ·      86685  ·            3  ·       1.06  │
+|  Lottery   ·  enter      ·      80406  ·     114606  ·      97506  ·            8  ·       0.67  │
 ·············|·············|·············|·············|·············|···············|··············
-|  Avocado   ·  setKeeper  ·          -  ·          -  ·      30073  ·            2  ·       0.37  │
+|  Lottery   ·  setKeeper  ·          -  ·          -  ·      29994  ·            2  ·       0.21  │
 ·············|·············|·············|·············|·············|···············|··············
 |  Deployments             ·                                         ·  % of limit   ·             │
 ···························|·············|·············|·············|···············|··············
-|  Avocado                 ·          -  ·          -  ·     694489  ·        2.3 %  ·       8.48  │
+|  Lottery                 ·          -  ·          -  ·     748566  ·        2.5 %  ·       5.13  │
 ·--------------------------|-------------|-------------|-------------|---------------|-------------·
 
-  8 passing (453ms)
+  8 passing (877ms
 ```
 
 ## Deploy the contract locally
 ```
 $ npx hardhat run scripts/deploy.ts
 
-Avocado contract deployed to the hardhat blockchain: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+Lottery contract deployed to the hardhat blockchain: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 ```
 
 ## Deploy and verify the contract on Polygon Mumbai (testnet)
 ```
 $ npx hardhat run scripts/deploy.ts --network polygonMumbai
 
-Avocado contract deployed to the polygonMumbai blockchain: 0x22e4B51519A2C37d1a3024d2333aA494ea2759E4
+Lottery contract deployed to the polygonMumbai blockchain: 0x5e2D1C57301Cc823CbBCe3AA0dF6169F0EfEcD41
 Waiting for 5 block confirmations before verifying the contract
 Nothing to compile
 No need to generate any newer typings.
 Successfully submitted source code for contract
-contracts/Avocado.sol:Avocado at 0x22e4B51519A2C37d1a3024d2333aA494ea2759E4
+contracts/Lottery.sol:Lottery at 0x5e2D1C57301Cc823CbBCe3AA0dF6169F0EfEcD41
 for verification on the block explorer. Waiting for verification result...
 
-Successfully verified contract Avocado on Etherscan.
-https://mumbai.polygonscan.com/address/0x22e4B51519A2C37d1a3024d2333aA494ea2759E4#code
+Successfully verified contract Lottery on Etherscan.
+https://mumbai.polygonscan.com/address/0x5e2D1C57301Cc823CbBCe3AA0dF6169F0EfEcD41#code
 ```

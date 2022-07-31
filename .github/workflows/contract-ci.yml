@@ -83,4 +83,4 @@ jobs:
       - name: 🐍 Run slither
         run: slither .
       - name: 🛡️ Run mythril
-        run: myth analyze contracts/Avocado.sol
+        run: myth analyze contracts/Lottery.sol
