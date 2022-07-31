@@ -80,6 +80,7 @@ contract Lottery {
 		require(msg.value >=  _n * TICKET_PRICE, "NOT_ENOUGH_MONEY");
 		Round storage round = rounds[currentRound];
 		require(round.ticketsSold + _n <= TICKET_NUMBER, "NOT_ENOUGH_TICKETS_LEFT");
+		require(block.timestamp <= round.endDate, "ROUND_HAS_ENDED");
 
 		// Store the new entry
 		round.entries.push(Entry(msg.sender, _n));
@@ -114,7 +115,7 @@ contract Lottery {
 		emit RoundEnded(currentRound, winnerAddress, ticketsSold);
 		currentRound++;
 		emit RoundStarted(currentRound);
-		rounds[currentRound].endDate = deployDate + ROUND_LENGTH * currentRound;
+		rounds[currentRound].endDate = block.timestamp + ROUND_LENGTH;
 
 		// Send the fees to the team
 		uint256 totalValue = round.ticketsSold * TICKET_PRICE;

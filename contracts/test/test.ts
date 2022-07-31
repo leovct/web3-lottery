@@ -73,6 +73,21 @@ describe("Lottery", function () {
       await expect(contract.connect(user1).enter(200, { value: ethers.utils.parseEther("2") }))
         .to.be.revertedWith("NOT_ENOUGH_TICKETS_LEFT")
     })
+
+    it ("Should fail to buy tickets when the round has ended", async function () {
+      // Fast forward 5 minutes
+      const block = await ethers.provider.getBlock("latest")
+      await ethers.provider.send("evm_mine", [block.timestamp + 60*5])
+
+      // Check that the round ended
+      const newBlock = await ethers.provider.getBlock("latest")
+      expect(newBlock.number).to.equal(block.number + 1)
+      expect(newBlock.timestamp).to.equal(block.timestamp + 60*5)
+
+      // User tries to buy 50 tickets after the round ended
+      await expect(contract.connect(user1).enter(50, { value: ethers.utils.parseEther("0.5") }))
+        .to.be.revertedWith("ROUND_HAS_ENDED")
+    })
   })
 
   describe("Draw", async function () {
@@ -88,9 +103,14 @@ describe("Lottery", function () {
       .withArgs(1, user2.address, 25)
 
       // Fast forward 5 minutes
-      await ethers.provider.send("evm_increaseTime", [60 * 5])
-      await ethers.provider.send("evm_mine", [])
+      const block = await ethers.provider.getBlock("latest")
+      await ethers.provider.send("evm_mine", [block.timestamp + 60*5])
 
+      // Check that the round ended
+      const newBlock = await ethers.provider.getBlock("latest")
+      expect(newBlock.number).to.equal(block.number + 1)
+      expect(newBlock.timestamp).to.equal(block.timestamp + 60*5)
+      
       // Check the account balances
       // Note that the start balance is set to 10 000 ethers in hardhat
       const ownerBalanceBeforeDraw = await ethers.provider.getBalance(owner.address)
@@ -125,7 +145,7 @@ describe("Lottery", function () {
       const round1EndDate = round.endDate
       const round2 = await contract.rounds(2)
       const round2EndDate = round2.endDate
-      expect(round2EndDate).equal(round1EndDate.add(60*5))
+      expect(round2EndDate).to.be.above(round1EndDate.add(60*5)) // there is a slight delay of a few seconds
       
       // Check again the account balances
       // The jackpot value is equal to 0.75 ether
