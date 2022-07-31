@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Rules: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="large colored	">The 4 rules of the 🥑</p>
+			<p id="subtitle" className="large colored	">The 4 🥑 rules</p>
 			<p className="medium italic">Everything you need to become a real avocado!</p>
 
 			<MainContainer className="small">
