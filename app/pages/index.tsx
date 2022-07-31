@@ -21,11 +21,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Header></Header>
+        <Header currentPage={currentPage} handleClick={(page) => setCurrentPage(page)}></Header>
         { currentPage == "home" && <Play></Play>}
         { currentPage == "rules" && <Rules></Rules>}
         { currentPage == "winners" && <Winners></Winners>}
-        <Footer currentPage={currentPage} handleClick={(page) => setCurrentPage(page)}></Footer>
+        <Footer></Footer>
       </main>
     </div>
   )

@@ -15,11 +15,6 @@ const Winners: FC = () => {
 						<th>Amount</th>
 					</tr>
 					<tr>
-						<td>6</td>
-						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
-						<td>22 MATIC</td>
-					</tr>
-					<tr>
 						<td>5</td>
 						<td>0xbFe21ad2ef6599091afdbe0B1081039d2Fee2B5A</td>
 						<td>17 MATIC</td>
@@ -69,7 +64,6 @@ const Container = styled.div`
 const MainContainer = styled.div`
 	/* Layout */
 	display: flex;
-	width: 44%;
 	margin: 40px 0px;
 	flex-direction: column;
 	align-items: center;

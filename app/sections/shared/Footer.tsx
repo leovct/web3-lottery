@@ -8,35 +8,10 @@ import PolygonLogo from "../../assets/polygon.png"
 
 const IMG_SIZE = "32px"
 
-type FooterProps = {
-	currentPage: string
-	handleClick: (page: string) => void
-}
-
-const Footer: FC<FooterProps> = ({ currentPage, handleClick }) => {
+const Footer: FC = () => {
 	return (
 		<Container>
 			<MainContainer>
-				<Menu>
-					<Button
-						className={`${currentPage == "home" ? "highlight" : ""}`}
-						onClick={() => handleClick("home")}
-					>
-						Play!
-					</Button>
-					<Button
-						className={`${currentPage == "rules" ? "highlight" : ""}`}
-						onClick={() => handleClick("rules")}
-					>
-						The Rules
-					</Button>
-					<Button
-						className={`${currentPage == "winners" ? "highlight" : ""}`}
-						onClick={() => handleClick("winners")}
-					>
-						Winners
-					</Button>
-				</Menu>
 				<p className="small colored2 italic">
 					made with ❤️ by <a className="colored underline" href="https://twitter.com/leoovct" target="_blank" rel="noreferrer">@leovct</a>
 				</p>
@@ -66,12 +41,6 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: end;
 	gap: 30px;
-
-	/* Text */
-	.highlight {
-		font-weight: bold;
-		color: #94cc80;
-	}
 `
 
 const MainContainer = styled.div`
@@ -84,29 +53,6 @@ const MainContainer = styled.div`
 	.small {
 		font-size: 13px;
 	}
-`
-
-const Button = styled.button`
-	/* Remove default styling */
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	outline: inherit;
-
-	/* User interaction */
-	cursor: pointer;
-	
-	&:hover, &:focus {
-		color: #94cc80;
-	}
-`
-
-const Menu = styled.div`
-	/* Layout */
-	display: flex;
-	gap: 40px;
 `
 
 const ExternalLinks = styled.div`
