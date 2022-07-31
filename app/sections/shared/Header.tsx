@@ -4,18 +4,14 @@ import Image from "next/image"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 import Avocado from "../../assets/avocado.png"
-import DevPostLogo from "../../assets/devpost.png"
-import GithubLogo from "../../assets/github.png"
-import PolygonLogo from "../../assets/polygon.png"
-
-const IMG_SIZE = "32px"
 
 type HeaderProps = {
 	currentPage: string
 	handleClick: (page: string) => void
+	isAdmin: boolean
 }
 
-const Header: FC<HeaderProps> = ({ currentPage, handleClick }) => {
+const Header: FC<HeaderProps> = ({ currentPage, handleClick, isAdmin }) => {
 	return (
 		<Container>
 			<TitleContainer>
@@ -41,6 +37,16 @@ const Header: FC<HeaderProps> = ({ currentPage, handleClick }) => {
 				>
 					Winners
 				</Button>
+				{
+					isAdmin && (
+						<Button
+							className={`${currentPage == "dashboard" ? "highlight" : ""}`}
+							onClick={() => handleClick("dashboard")}
+						>
+							Dashboard
+						</Button>
+					)
+				}
 			</MenuContainer>
 			<ConnectButtonContainer>
 				<ConnectButton />
