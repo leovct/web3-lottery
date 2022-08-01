@@ -61,7 +61,7 @@ const Header: FC<HeaderProps> = ({ currentPage, handleClick, isAdmin }) => {
 			</MenuContainer>
 			<RightContainer>
 				{
-					isAdmin || (
+					isAdmin && (
 						<Button
 							className={`${currentPage == "dashboard" ? "highlight" : ""}`}
 							onClick={() => handleClick("dashboard")}
@@ -156,7 +156,7 @@ const RightContainer = styled.div`
 	display: flex;
 	justify-content: end;
 	align-items: center;
-	width: 300px;
+	width: 340px;
 	gap: 10px;
 `
 
