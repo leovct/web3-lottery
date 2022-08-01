@@ -22,7 +22,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 )
 
 const { wallets } = getDefaultWallets({
-	appName: "Avocado",
+	appName: "web3.lottery",
 	chains,
 })
 
@@ -46,7 +46,7 @@ const wagmiClient = createClient({
 })
 
 const appInfo = {
-	appName: "Avocado",
+	appName: "web3.lottery",
 }
 
 function MyApp({ Component, pageProps }: AppProps) {

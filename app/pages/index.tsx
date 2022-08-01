@@ -41,7 +41,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Avocado</title>
+        <title>web3.lottery</title>
         <meta name="description" content="Fun guessing game using blockchain technology and oracles to ensure transparency and reliability" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
