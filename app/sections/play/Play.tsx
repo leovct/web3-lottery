@@ -164,13 +164,7 @@ const BetContainer = styled.div`
 	/* Layout */
 	display: flex;
 	gap: 80px;
-	margin: 40px 0px;
-`
-
-const InfoContainer = styled.div`
-	/* Layout */
-	text-align: center;
-	margin: 20px 0px 0px 0px;
+	margin: 60px 0px;
 `
 
 const NumericInput = styled.input`
@@ -241,12 +235,6 @@ const BuyButton = styled(Button)`
 			filter: brightness(0) invert(1);
 		}
 	}
-`
-
-const Button2 = styled(Button)`
-	/* Layout */
-	width: 300px;
-	margin-top: 10px;
 `
 
 export default Play
