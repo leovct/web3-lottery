@@ -163,7 +163,7 @@ const MainContainer = styled.div`
 const BetContainer = styled.div`
 	/* Layout */
 	display: flex;
-	gap: 80px;
+	gap: 40px;
 	margin: 60px 0px;
 `
 
