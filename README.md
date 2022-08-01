@@ -9,12 +9,12 @@ The Web3 Lottery project was developed over a relatively short time period as pa
 
 ## The Rules
 - 100 tickets are available per round, each at 0.01 MATIC.
-- At the end of the round, the contract randomly picks a number using the Chainlink oracle. The lucky owner of the winning ticket wins the jackpot!
+- At the end of the round, the contract randomly picks a number using Chainlink VRF. The lucky owner of the winning ticket wins the jackpot!!
 - A round lasts exactly 24 hours.
-- In order to finance maintenance and operational costs, the winner takes 90% of the jackpot, the team behind the project gets 7% and the contract keeps 3%.
+- To finance maintenance and operational costs, the winner shares a percentage of the jackpot with the web3.lottery team (Winner: 90% / Team: 5% / Contract: 5%).
 
 ## System Diagram
-Because a diagram explains ideas way better than three paragraphs, here it is.\
+Because a diagram explains ideas way better than three paragraphs, here it is.
 
 <div align="center">
 	<img src="doc/diagram.png" width=1000px/>
