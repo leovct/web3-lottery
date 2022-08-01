@@ -248,7 +248,7 @@ const Dashboard: FC = () => {
 						</ul>
 					</ColumnContainer>
 				</RowContainer><p id="subtitle" className="small">
-				See more on the <a className="colored" href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
+				See more on the <a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
 			</p>
 		</Container>
 	)
