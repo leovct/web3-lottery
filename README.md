@@ -1,6 +1,10 @@
+
 # 🎲 Web3 Lottery
 
 > **This project aims to develop a lottery game leveraging blockchain technology and oracles to ensure transparency and reliability**.
+
+![vercel](https://img.shields.io/github/deployments/leovct/lottery/production?label=vercel&logo=vercel&logoColor=white)
+![contract-ci](https://github.com/leovct/lottery/actions/workflows/contract-ci.yml/badge.svg)
 
 It was developed over a relatively short time period as part of the [Polygon BUILD IT: Summer 2022 hackathon](https://devpost.com/software/avocado-i92guw?ref_content=my-projects-tab&ref_feature=my_projects). The aim was to develop a web3 product from scratch and complete it so that it was ready for deployment on the mainnet. Of course, not everything is perfect and there are undoubtedly things to improve, but most of the work has already been done. On top of that, this project allows me to demonstrate my ability to lead a blockchain project, be it on smart contract, test and security aspects or rather on the front-end and automation parts (ci/cd pipelines).
 
