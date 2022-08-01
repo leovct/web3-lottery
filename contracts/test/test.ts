@@ -77,12 +77,12 @@ describe("Lottery", function () {
     it ("Should fail to buy tickets when the round has ended", async function () {
       // Fast forward 5 minutes
       const block = await ethers.provider.getBlock("latest")
-      await ethers.provider.send("evm_mine", [block.timestamp + 60*5])
+      await ethers.provider.send("evm_mine", [block.timestamp + 60*15])
 
       // Check that the round ended
       const newBlock = await ethers.provider.getBlock("latest")
       expect(newBlock.number).to.equal(block.number + 1)
-      expect(newBlock.timestamp).to.equal(block.timestamp + 60*5)
+      expect(newBlock.timestamp).to.equal(block.timestamp + 60*15)
 
       // User tries to buy 50 tickets after the round ended
       await expect(contract.connect(user1).enter(50, { value: ethers.utils.parseEther("0.5") }))
@@ -104,12 +104,12 @@ describe("Lottery", function () {
 
       // Fast forward 5 minutes
       const block = await ethers.provider.getBlock("latest")
-      await ethers.provider.send("evm_mine", [block.timestamp + 60*5])
+      await ethers.provider.send("evm_mine", [block.timestamp + 60*15])
 
       // Check that the round ended
       const newBlock = await ethers.provider.getBlock("latest")
       expect(newBlock.number).to.equal(block.number + 1)
-      expect(newBlock.timestamp).to.equal(block.timestamp + 60*5)
+      expect(newBlock.timestamp).to.equal(block.timestamp + 60*15)
       
       // Check the account balances
       // Note that the start balance is set to 10 000 ethers in hardhat
