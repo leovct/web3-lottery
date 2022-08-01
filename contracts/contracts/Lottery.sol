@@ -46,6 +46,16 @@ contract Lottery {
 	mapping(uint256 => Round) public rounds;
 
 	/******************************************************************
+	| Custom errors
+	/******************************************************************/
+	error NotEnoughMoney();
+	error NotEnoughTicketsLeft();
+	error RoundHasEnded();
+	error RoundHasNotEnded();
+	error FailedToSendEther();
+	error Unauthorized();
+
+	/******************************************************************
 	| Events
 	/******************************************************************/
 	event RoundStarted(uint256 round);
@@ -77,10 +87,10 @@ contract Lottery {
 	 * @param _n the number of tickets bought
 	 */
 	function enter(uint256 _n) external payable {
-		require(msg.value >=  _n * TICKET_PRICE, "NOT_ENOUGH_MONEY");
+		if (msg.value < _n * TICKET_PRICE) revert NotEnoughMoney();
 		Round storage round = rounds[currentRound];
-		require(round.ticketsSold + _n <= TICKET_NUMBER, "NOT_ENOUGH_TICKETS_LEFT");
-		require(block.timestamp <= round.endDate, "ROUND_HAS_ENDED");
+		if (round.ticketsSold + _n > TICKET_NUMBER) revert NotEnoughTicketsLeft();
+		if (block.timestamp > round.endDate) revert RoundHasEnded();
 
 		// Store the new entry
 		round.entries.push(Entry(msg.sender, _n));
@@ -92,9 +102,9 @@ contract Lottery {
 	 * @notice Draw a winner
 	 */
 	function draw() external {
-		require(msg.sender == keeperAddress, "UNAUTHORISED");
+		if (msg.sender != keeperAddress) revert Unauthorized();
 		Round storage round = rounds[currentRound];
-		require(block.timestamp >= round.endDate, "ROUND_NOT_OVER");
+		if (block.timestamp < round.endDate) revert RoundHasNotEnded();
 
 		// Draw a random number between 1 and ticketsSold
 		// TODO: Use Chainlink Oracle
@@ -123,7 +133,7 @@ contract Lottery {
 			round.moneySentToTeam = true;
 
 			(bool sent,) = address(ownerAddress).call{value: totalValue * TEAM_FEE / 100}("");
-			require(sent, "FAILED_TO_SEND_ETHER");
+			if (!sent) revert FailedToSendEther();
 		}
 
 		// Send the rest of the money to the winner
@@ -131,7 +141,7 @@ contract Lottery {
 			round.moneySentToWinner = true;
 
 			(bool sent,) = address(winnerAddress).call{value: totalValue * (100 - TEAM_FEE - CONTRACT_FEE) / 100}("");
-			require(sent, "FAILED_TO_SEND_ETHER");
+			if (!sent) revert FailedToSendEther();
 		}
 	}
 
@@ -169,7 +179,7 @@ contract Lottery {
 	 * @param _keeper the new address of the keeper
 	 */
 	function setKeeper(address _keeper) external {
-		require(msg.sender == ownerAddress, "UNAUTHORISED");
+		if (msg.sender != ownerAddress) revert Unauthorized();
 
 		keeperAddress = _keeper;
 		emit KeeperAddressUpdated(_keeper);

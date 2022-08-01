@@ -65,13 +65,13 @@ describe("Lottery", function () {
     it("Should fail to buy tickets when not sending enough money", async function () {
       // User tries to buy 100 tickets without sending enough money
       await expect(contract.connect(user1).enter(100, { value: ethers.utils.parseEther("0.1") }))
-        .to.be.revertedWith("NOT_ENOUGH_MONEY")
+        .to.be.revertedWithCustomError(contract, "NotEnoughMoney")
     })
 
     it("Should fail to buy more tickets than what's available", async function () {
       // User tries to buy 200 tickets even though there are only 100 tickets available
       await expect(contract.connect(user1).enter(200, { value: ethers.utils.parseEther("2") }))
-        .to.be.revertedWith("NOT_ENOUGH_TICKETS_LEFT")
+        .to.be.revertedWithCustomError(contract, "NotEnoughTicketsLeft")
     })
 
     it ("Should fail to buy tickets when the round has ended", async function () {
@@ -86,7 +86,7 @@ describe("Lottery", function () {
 
       // User tries to buy 50 tickets after the round ended
       await expect(contract.connect(user1).enter(50, { value: ethers.utils.parseEther("0.5") }))
-        .to.be.revertedWith("ROUND_HAS_ENDED")
+        .to.be.revertedWithCustomError(contract, "RoundHasEnded")
     })
   })
 
@@ -167,12 +167,12 @@ describe("Lottery", function () {
 
     it("Should fail to draw a winner when using another account than the keeper", async function () {
       await expect(contract.connect(user1).draw())
-        .to.be.revertedWith("UNAUTHORISED")
+        .to.be.revertedWithCustomError(contract, "Unauthorized")
     })
 
     it("Should fail to draw a winner when the round has not ended", async function () {
       await expect(contract.connect(keeper).draw())
-        .to.be.revertedWith("ROUND_NOT_OVER")
+        .to.be.revertedWithCustomError(contract, "RoundHasNotEnded")
     })
 	})
 
@@ -196,7 +196,7 @@ describe("Lottery", function () {
 
     it("Should fail to update the keeper's address using another account than the owner", async function () {
       await expect(contract.connect(user1).setKeeper(owner.address))
-        .to.be.revertedWith("UNAUTHORISED")
+        .to.be.revertedWithCustomError(contract, "Unauthorized")
     })
   })
 })
