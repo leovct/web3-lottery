@@ -5,8 +5,10 @@ import { LOTTERY_EXPLORER_URL } from "../../constants/address"
 const Winners: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="large">Last winners of the 🥑</p>
-			<p className="medium italic">{"Only real avocados are listed here... Are you the next choosen one?"}</p>
+			<TitleContainer className="small">
+				<p>Here are the last lucky winners of the lottery</p>
+				<p className="italic bold">Are you the next chosen one?</p>
+			</TitleContainer>
 
 			<MainContainer>
 				<Table>
@@ -56,10 +58,11 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+`
 
-	#subtitle {
-		margin: 0;
-	}
+const TitleContainer = styled.div`
+	margin: 0px;
+	text-align: center;
 `
 
 const MainContainer = styled.div`
@@ -88,18 +91,16 @@ const Table = styled.table`
 	}
 
 	th {
-		background-color: #94cc80;
-		color: #e3dcd0;
-		font-size: 28px;
+		background-color: #05386B;
+		width: 200px;
+		color: #EDF5E1;
+		font-size: 22px;
 	}
 	
 	td, th {
-		border: 1px solid #ddd;
+		height: 40px;
+		border: 1px solid #05386B;
 		padding: 8px;
-	}
-	
-	tr:nth-child(even) {
-		background-color: #f2f2f2;
 	}
 `
 
