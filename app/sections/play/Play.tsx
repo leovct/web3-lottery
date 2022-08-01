@@ -1,11 +1,13 @@
 import { ethers } from "ethers"
 import React from "react"
+import Image from "next/image"
 import { FC } from "react"
 import styled from "styled-components"
 import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite } from "wagmi"
 import { LOTTERY_CONFIG } from "../../constants/address"
 import { MAX_TICKETS, TICKET_PRICE } from "../../constants/game"
 import { formatTime } from "../../utils/time"
+import Ticket from "../../assets/ticket.png"
 
 const Play: FC = () => {
 	const [round, setRound] = React.useState<number>(1)
@@ -89,39 +91,41 @@ const Play: FC = () => {
 
 	return (
 		<Container>
-			<p id="subtitle" className="large">May the (🥑) force be with you!</p>
-			<p className="medium italic">{"Buy tickets and win the lottery if you're lucky! What are you waiting for?!"}</p>
-
+			<TitleContainer className="small">
+				<p className="italic">{`"The new lottery blockchain game you need to try!"`}</p>
+				<p><span className="bold">{ticketsSold * TICKET_PRICE} MATIC to be won</span>, will you be the lucky one?!</p>
+			</TitleContainer>
+		
 			<MainContainer>
 				<BetContainer>
 					<NumericInput
 						type="number"
 						placeholder="How many tickets do you want?"
 						max={MAX_TICKETS}
-						value={ticketAmount}
+						value={ticketAmount === 0 ? "" : ticketAmount}
 						onInput={
 							(e: React.ChangeEvent<HTMLInputElement>) => setTicketAmount(Number(e.target.value))
 						}
 					/>
-					<Button
+					<BuyButton
 						onClick={() => isConnected ? ((typeof ticketAmount === "undefined" ? 0 : ticketAmount) > 0 ? write?.() : alert("You must buy at least 1 ticket!")) : alert("Please connect your wallet!") }
 					>
-						Play!
-					</Button>
+						<span>Buy!</span>
+						<Image className="icon" src={Ticket} alt="ticket" priority={true} width={"26px"} height={"26px"} layout="fixed"/>
+						<p className="extra-small italic">
+							{ticketAmount === 0 || ticketAmount === 1 ? `1 ticket = ${TICKET_PRICE} MATIC` : (
+								typeof ticketAmount === "undefined" ?
+								`1 ticket = ${TICKET_PRICE} MATIC` :
+								`${ticketAmount} tickets = ${ticketAmount * TICKET_PRICE} MATIC`
+							)}
+						</p>
+					</BuyButton>
 				</BetContainer>
 
-				<p className="small bold">Tickets sold: {ticketsSold} / {MAX_TICKETS} (1x ticket = {TICKET_PRICE} MATIC)</p>
-				<p className="small bold">Round #{round} {countdown ? "ends in " + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
+				<p className="small"><span className="bold">Only {MAX_TICKETS - ticketsSold} tickets left!</span> {`Don't miss it!`}</p>
+				<p className="small">
+					<span className="underline">Round {countdown ? "ends in " + formatTime(countdown) : "has ended"}</span> ({endDate.toUTCString()})</p>
 			</MainContainer>
-
-			<InfoContainer className="small">
-				<p>{(round > 1 && `Last winner (round #${previousRound}): ${lastWinner} (${lastAmountWon} MATIC)`)}</p>
-				<Button2
-					onClick={() => alert("You clicked on the second button!")}
-				>
-					{">> Get my award! <<"}
-				</Button2>
-			</InfoContainer>
 		</Container>
 	)
 }
@@ -136,6 +140,10 @@ const Container = styled.div`
 	#subtitle {
 		margin: 0;
 	}
+`
+
+const TitleContainer = styled.div`
+	margin: 0px;
 `
 
 const MainContainer = styled.div`
@@ -155,7 +163,8 @@ const MainContainer = styled.div`
 const BetContainer = styled.div`
 	/* Layout */
 	display: flex;
-	gap: 40px;
+	gap: 80px;
+	margin: 40px 0px;
 `
 
 const InfoContainer = styled.div`
@@ -163,6 +172,31 @@ const InfoContainer = styled.div`
 	text-align: center;
 	margin: 20px 0px 0px 0px;
 `
+
+const NumericInput = styled.input`
+	/* Remove default styling */
+	border: none;
+
+	/* Layout */
+  height: 80px;
+  width: 500px;
+	text-align: center; 
+
+	/* Color */
+	background: #05386B;
+	color: #EDF5E1;
+
+	/* Text */
+	font-size: 26px;
+	font-weight: bold;
+
+	::placeholder {
+		color: #EDF5E1;
+	}
+
+	/* Border */
+	border-radius: 16px;
+`;
 
 const Button = styled.button`
 	/* Layout */
@@ -184,13 +218,12 @@ const Button = styled.button`
 	cursor: pointer;
 
 	/* Color */
-	background: #e3dcd0;
-	color: #4d3636;
-	border: 1px solid #4d3636;
+	background: #EDF5E1;
+	color: #05386B;
 
 	&:hover {
-		background: #4d3636;
-		color: #e3dcd0;
+		background: #05386B;
+		color: #EDF5E1;
 	}
 
   &:active {
@@ -198,35 +231,22 @@ const Button = styled.button`
   }
 `
 
+const BuyButton = styled(Button)`
+	span {
+		margin-right: 10px;
+	}
+
+	&:hover {
+		.icon {
+			filter: brightness(0) invert(1);
+		}
+	}
+`
+
 const Button2 = styled(Button)`
 	/* Layout */
 	width: 300px;
 	margin-top: 10px;
 `
-
-const NumericInput = styled.input`
-	/* Remove default styling */
-	border: none;
-
-	/* Layout */
-  height: 80px;
-  width: 500px;
-	text-align: center; 
-
-	/* Color */
-	background: #94cc80;
-	color: #e3dcd0;
-
-	/* Text */
-	font-size: 26px;
-	font-weight: bold;
-
-	::placeholder {
-		color: #e3dcd0;
-	}
-
-	/* Border */
-	border-radius: 16px;
-`;
 
 export default Play
