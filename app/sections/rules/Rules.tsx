@@ -5,7 +5,7 @@ import { MAX_TICKETS, TICKET_PRICE } from "../../constants/game"
 const Rules: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="large colored	">The 4 🥑 rules</p>
+			<p id="subtitle" className="large	">The 4 🥑 rules</p>
 			<p className="medium italic">Everything you need to become a real avocado!</p>
 
 			<MainContainer className="small">
