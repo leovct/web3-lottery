@@ -89,7 +89,7 @@ const Play: FC = () => {
 
 	return (
 		<Container>
-			<p id="subtitle" className="large colored">May the (🥑) force be with you!</p>
+			<p id="subtitle" className="large">May the (🥑) force be with you!</p>
 			<p className="medium italic">{"Buy tickets and win the lottery if you're lucky! What are you waiting for?!"}</p>
 
 			<MainContainer>
@@ -110,8 +110,8 @@ const Play: FC = () => {
 					</Button>
 				</BetContainer>
 
-				<p className="small colored bold">Tickets sold: {ticketsSold} / {MAX_TICKETS} (1x ticket = {TICKET_PRICE} MATIC)</p>
-				<p className="small colored bold">Round #{round} {countdown ? "ends in " + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
+				<p className="small bold">Tickets sold: {ticketsSold} / {MAX_TICKETS} (1x ticket = {TICKET_PRICE} MATIC)</p>
+				<p className="small bold">Round #{round} {countdown ? "ends in " + formatTime(countdown) : "has ended"} ({endDate.toUTCString()})</p>
 			</MainContainer>
 
 			<InfoContainer className="small">
