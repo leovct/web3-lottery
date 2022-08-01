@@ -3,7 +3,15 @@ import styled from "styled-components"
 import Image from "next/image"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
-import Avocado from "../../assets/avocado.png"
+import Ticket from "../../assets/ticket.png"
+import TwitterLogo from "../../assets/twitter.png"
+import GithubLogo from "../../assets/github.png"
+import PolygonLogo from "../../assets/polygon.png"
+import Gear from "../../assets/gear.png"
+
+import { LOTTERY_EXPLORER_URL } from "../../constants/address"
+
+const IMG_SIZE = "20px"
 
 type HeaderProps = {
 	currentPage: string
@@ -14,10 +22,23 @@ type HeaderProps = {
 const Header: FC<HeaderProps> = ({ currentPage, handleClick, isAdmin }) => {
 	return (
 		<Container>
-			<TitleContainer>
-				<Image src={Avocado} alt="avocado" priority={true} width={"60px"} height={"60px"} layout="fixed"/>
-				<h1>avocado</h1>
-			</TitleContainer>
+			<LeftContainer>
+				<LogoContainer>
+					<Image src={Ticket} alt="ticket" priority={true} width={"40px"} height={"40px"} layout="fixed"/>
+					<p className="small">web3.lottery</p>
+				</LogoContainer>
+				<ExternalLinks>
+					<a href="https://twitter.com/leoovct" target="_blank" rel="noreferrer">
+						<Image className="icon" src={TwitterLogo} alt="devpost-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
+					</a>
+					<a href="https://github.com/leovct/avocado" target="_blank" rel="noreferrer">
+						<Image className="icon" src={GithubLogo} alt="github-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
+					</a>
+					<a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">
+						<Image className="icon" src={PolygonLogo} alt="polygon-logo" priority={true} width={IMG_SIZE} height={IMG_SIZE} layout="fixed"/>
+					</a>
+				</ExternalLinks>
+			</LeftContainer>
 			<MenuContainer>
 				<Button
 					className={`${currentPage == "home" ? "highlight" : ""}`}
@@ -37,20 +58,20 @@ const Header: FC<HeaderProps> = ({ currentPage, handleClick, isAdmin }) => {
 				>
 					Winners
 				</Button>
+			</MenuContainer>
+			<RightContainer>
 				{
-					isAdmin && (
+					isAdmin || (
 						<Button
 							className={`${currentPage == "dashboard" ? "highlight" : ""}`}
 							onClick={() => handleClick("dashboard")}
 						>
-							Dashboard
+							<Image className="icon" src={Gear} alt="gear" priority={true} width={"26px"} height={"26px"} layout="fixed"/>
 						</Button>
 					)
 				}
-			</MenuContainer>
-			<ConnectButtonContainer>
 				<ConnectButton />
-			</ConnectButtonContainer>
+			</RightContainer>
 		</Container>
 	)
 }
@@ -66,16 +87,33 @@ const Container = styled.div`
 	.highlight {
 		font-weight: bold;
 		text-decoration: underline;
-		color: #4d3636;
+	}
+
+	/* Icons */
+	.icon:hover {
+		filter: brightness(0) invert(1);
 	}
 `
 
-const TitleContainer = styled.div`
+const LeftContainer = styled.div`
 	/* Layout */
 	display: flex;
-	align-items: center;
-	gap: 16px;
+	flex-direction: column;
+	align-items: start;
 	width: 300px;
+`
+
+const LogoContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 10px;
+`
+
+const ExternalLinks = styled.div`
+	/* Layout */
+	display: flex;
+	margin-left: 60px;
+	gap: 10px;
 `
 
 const MenuContainer = styled.div`
@@ -100,23 +138,26 @@ const Button = styled.button`
 	cursor: pointer;
 	
 	&:hover, &:focus {
-		color: #4d3636;
+		color: #05386B;
 	}
 
 	&:hover {
-		font-style: italic;
+		color: #EDF5E1;
 	}
 
 	&:focus {
 		text-decoration: underline;
+		font-weight: bold;
 	}
 `
 
-const ConnectButtonContainer = styled.div`
+const RightContainer = styled.div`
 	/* Layout */
 	display: flex;
 	justify-content: end;
+	align-items: center;
 	width: 300px;
+	gap: 10px;
 `
 
 export default Header

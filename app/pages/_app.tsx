@@ -57,8 +57,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 				chains={chains}
 				showRecentTransactions={true}
 				theme={lightTheme({
-					accentColor: "#4d3636",
-					accentColorForeground: "#e3dcd0",
+					accentColor: "#05386B",
+					accentColorForeground: "#EDF5E1",
 					overlayBlur: "small",
 				})}
 				coolMode

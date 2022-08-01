@@ -5,7 +5,7 @@ import { LOTTERY_EXPLORER_URL } from "../../constants/address"
 const Winners: FC = () => {
 	return (
 		<Container>
-			<p id="subtitle" className="large colored">Last winners of the 🥑</p>
+			<p id="subtitle" className="large">Last winners of the 🥑</p>
 			<p className="medium italic">{"Only real avocados are listed here... Are you the next choosen one?"}</p>
 
 			<MainContainer>
@@ -44,7 +44,7 @@ const Winners: FC = () => {
 			</MainContainer>
 
 			<p id="subtitle" className="small">
-				See more on the <a className="colored" href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
+				See more on the <a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
 			</p>
 		</Container>
 	)
