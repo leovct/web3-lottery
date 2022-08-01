@@ -11,13 +11,13 @@ contract Lottery {
 	/******************************************************************
 	| Constants
 	/******************************************************************/
-	uint256 immutable TICKET_PRICE = 0.01 ether;
-	uint256 immutable TICKET_NUMBER = 100;
-	uint256 immutable ROUND_LENGTH = 15 minutes;
+	uint256 constant TICKET_PRICE = 0.01 ether;
+	uint256 constant TICKET_NUMBER = 100;
+	uint256 constant ROUND_LENGTH = 15 minutes;
 	
 	// Fees are a percentage of the amount earned by the winner 	
-	uint256 immutable TEAM_FEE = 7;
-	uint256 immutable CONTRACT_FEE = 3;
+	uint256 constant TEAM_FEE = 7;
+	uint256 constant CONTRACT_FEE = 3;
 
 	/******************************************************************
 	| Structures
