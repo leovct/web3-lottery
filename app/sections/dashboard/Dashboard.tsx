@@ -195,59 +195,44 @@ const Dashboard: FC = () => {
 
 	return (
 		<Container>
+			<p className="medium bold">Contract: {display(contractBalance)} MATIC / Team: {display(ownerBalance)} MATIC</p>
 			<RowContainer>
 				<ColumnContainer>
-					<h1>Current round</h1>
+					<p className="small underline">Current round #{display(currentRound)}</p>
 					<ul>
-						<li>Round number: {display(currentRound)}</li>
-						<li>Tickets sold: {display(currentTicketsSold)} / {MAX_TICKETS}</li>
-						<li>Total value: {display(currentTicketsSold ? currentTicketsSold * TICKET_PRICE : 0)} MATIC</li>
-						<li>Number of entries: {display(currentNumberOfEntries)}</li>
+						<li>Tickets sold: {display(currentTicketsSold)} / {MAX_TICKETS} ({display(currentNumberOfEntries)} entries)</li>
+						<li>Jackpot: {display(currentTicketsSold ? currentTicketsSold * TICKET_PRICE : 0)} MATIC</li>
 						<li>Countdown: {currentCountdown ? formatTime(currentCountdown) : "expired"}</li>
 						<li>End date: {displayDate(currentEndDate)}</li>
 						<li>Winner: {(currentWinner === ethers.constants.AddressZero || !currentWinner) ? "none" : currentWinner}</li>
-						<li>Money sent: winner {currentMoneySentToWinner === true ? "✅" : "❌"} / owner {currentMoneySentToOwner === true ? "✅" : "❌"}</li>
+						<li>Money sent to winner: {currentMoneySentToWinner === true ? "✅" : "❌"} / team: {currentMoneySentToOwner === true ? "✅" : "❌"}</li>
 					</ul>
 				</ColumnContainer>
+				{
+					(currentRound && currentRound > 1) && (
+						<ColumnContainer>
+							<p className="small underline">Previous round #{display(previousRound)}</p>
+							<ul>
+								<li>Tickets sold: {display(previousTicketsSold)} / {MAX_TICKETS} ({display(previousNumberOfEntries)} entries)</li>
+								<li>Jackpot: {display(previousTicketsSold ? previousTicketsSold * TICKET_PRICE : 0)} MATIC</li>
+								<li>Countdown: expired</li>
+								<li>End date: {displayDate(previousEndDate)}</li>
+								<li>Winner: {(previousWinner === ethers.constants.AddressZero || !previousWinner) ? "none" : previousWinner}</li>
+								<li>Money sent to winner: {previousMoneySentToWinner === true ? "✅" : "❌"} / team: {previousMoneySentToOwner === true ? "✅" : "❌"}</li>
+							</ul>
+						</ColumnContainer>
+					)
+				}
+			</RowContainer>
+			<RowContainer>
 				<ColumnContainer>
-					<h1>Previous round</h1>
-					<ul>
-						<li>Round number: {display(previousRound)}</li>
-						<li>Tickets sold: {display(previousTicketsSold)} / {MAX_TICKETS}</li>
-						<li>Total value: {display(previousTicketsSold ? previousTicketsSold * TICKET_PRICE : 0)} MATIC</li>
-						<li>Number of entries: {display(previousNumberOfEntries)}</li>
-						<li>Countdown: expired</li>
-						<li>End date: {displayDate(previousEndDate)}</li>
-						<li>Winner: {(previousWinner === ethers.constants.AddressZero || !previousWinner) ? "none" : previousWinner}</li>
-						<li>Money sent: winner {previousMoneySentToWinner === true ? "✅" : "❌"} / owner {previousMoneySentToOwner === true ? "✅" : "❌"}</li>
-					</ul>
+					<p className="small underline">Contract Parameters</p>
+					<p>Owner address: <a href={BLOCK_EXPLORER_URL + "address/" + ownerAddress} target="_blank" rel="noreferrer">{display(ownerAddress)}</a></p>
+					<p>Keeper address: <a href={BLOCK_EXPLORER_URL + "address/" + keeperAddress} target="_blank" rel="noreferrer">{display(keeperAddress)}</a></p>
+					<p>Deploy date: {displayDate(deployDate)}</p>
 				</ColumnContainer>
-			</RowContainer><RowContainer>
-				<ColumnContainer>
-					<h1>Balances</h1>
-					<ul>
-						<li>Contract: {display(contractBalance)} MATIC</li>
-						<li>Owner: {display(ownerBalance)} MATIC</li>
-					</ul>
-				</ColumnContainer>
-					<ColumnContainer>
-						<h1>Parameters</h1>
-						<ul>
-							<li>
-								Owner address: <br />
-								<a href={BLOCK_EXPLORER_URL + "address/" + ownerAddress} target="_blank" rel="noreferrer">
-									{display(ownerAddress)}
-								</a>
-							</li>
-							<li>Keeper address: <br />
-								<a href={BLOCK_EXPLORER_URL + "address/" + keeperAddress} target="_blank" rel="noreferrer">
-									{display(keeperAddress)}
-								</a>
-							</li>
-							<li>Deploy date: {displayDate(deployDate)}</li>
-						</ul>
-					</ColumnContainer>
-				</RowContainer><p id="subtitle" className="small">
+			</RowContainer>
+			<p id="subtitle" className="small">
 				See more on the <a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
 			</p>
 		</Container>
@@ -277,12 +262,11 @@ const Container = styled.div`
 const RowContainer = styled.div`
 	display: flex;
 	justify-content: center;
-	width: 100%;
 	gap: 100px;
 `
 
 const ColumnContainer = styled.div`
-	width: 380px;
+	width: 400px;
 `
 
 export default Dashboard
