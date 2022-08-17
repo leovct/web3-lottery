@@ -165,13 +165,13 @@ describe("Lottery", function () {
       expect(user2BalanceAfterDraw).to.equal(user2BalanceBeforeDraw)
     })
 
-    it("Should fail to draw a winner when using another account than the keeper", async function () {
+    it("Should fail to draw a winner when using another account than the owner or the keeper", async function () {
       await expect(contract.connect(user1).draw())
         .to.be.revertedWithCustomError(contract, "Unauthorized")
     })
 
     it("Should fail to draw a winner when the round has not ended", async function () {
-      await expect(contract.connect(keeper).draw())
+      await expect(contract.draw())
         .to.be.revertedWithCustomError(contract, "RoundHasNotEnded")
     })
 	})

@@ -102,7 +102,7 @@ contract Lottery {
 	 * @notice Draw a winner
 	 */
 	function draw() external {
-		if (msg.sender != keeperAddress) revert Unauthorized();
+		if (msg.sender != ownerAddress && msg.sender != keeperAddress) revert Unauthorized();
 		Round storage round = rounds[currentRound];
 		if (block.timestamp < round.endDate) revert RoundHasNotEnded();
 
