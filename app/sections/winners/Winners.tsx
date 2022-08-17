@@ -6,8 +6,10 @@ const Winners: FC = () => {
 	return (
 		<Container>
 			<TitleContainer className="small">
-				<p>Here are the last lucky winners of the lottery</p>
-				<p className="italic bold">Are you the next chosen one?</p>
+				<p>Here are the last lucky winners of the lottery...</p>
+				<p className="italic bold">
+					See more on the <a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
+				</p>
 			</TitleContainer>
 
 			<MainContainer>
@@ -44,10 +46,6 @@ const Winners: FC = () => {
 					</tr>
 				</Table>
 			</MainContainer>
-
-			<p id="subtitle" className="small">
-				See more on the <a href={LOTTERY_EXPLORER_URL} target="_blank" rel="noreferrer">blockchain explorer</a>
-			</p>
 		</Container>
 	)
 }
@@ -68,7 +66,7 @@ const TitleContainer = styled.div`
 const MainContainer = styled.div`
 	/* Layout */
 	display: flex;
-	margin: 40px 0px;
+	margin: 20px 0px 0px 0px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
