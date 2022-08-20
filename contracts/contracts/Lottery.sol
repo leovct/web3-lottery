@@ -29,8 +29,8 @@ contract Lottery is VRFConsumerBaseV2 {
 	VRFCoordinatorV2Interface COORDINATOR;
   LinkTokenInterface LINKTOKEN;
 	address public vrfCoordinatorAddress;
-	uint64 subscriptionId;
-	uint256 requestId;
+	uint64 public subscriptionId;
+	uint256 public requestId;
 	uint256 randomWord;
 
 	// Source: https://docs.chain.link/docs/vrf-contracts/#polygon-matic-mumbai-testnet
@@ -52,8 +52,8 @@ contract Lottery is VRFConsumerBaseV2 {
 		Entry[] entries;
 		uint256 ticketsSold;
 		uint256 endDate;
+		uint256 requestId;
 		address winnerAddress;
-		bool randomNumberRequested;
 		bool moneySentToTeam;
 		bool moneySentToWinner;
 	}
@@ -146,7 +146,7 @@ contract Lottery is VRFConsumerBaseV2 {
 		if (msg.sender != ownerAddress && msg.sender != keeperAddress) revert Unauthorized();
 		Round storage round = rounds[currentRound];
 		if (block.timestamp < round.endDate) revert RoundHasNotEnded();
-		if (round.randomNumberRequested) revert RandomNumberAlreadyRequested();
+		if (round.requestId != 0) revert RandomNumberAlreadyRequested();
 
 		// Request a random number to the Chainlink VRF network
 		// Will revert if subscription is not set and funded
@@ -158,7 +158,7 @@ contract Lottery is VRFConsumerBaseV2 {
       1
     );
 
-		round.randomNumberRequested = true;
+		round.requestId = requestId;
 		emit RandomNumberRequested(currentRound);
 	}
 
@@ -174,7 +174,7 @@ contract Lottery is VRFConsumerBaseV2 {
 		if (msg.sender != vrfCoordinatorAddress) revert Unauthorized();
 		Round storage round = rounds[currentRound];
 		if (block.timestamp < round.endDate) revert RoundHasNotEnded();
-		if (!round.randomNumberRequested) revert RandomNumberNotRequestedYet();
+		if (round.requestId == 0) revert RandomNumberNotRequestedYet();
 
 		// Get the winning ticket
     uint256 winningTicket = (_randomWords[0] % round.ticketsSold) + 1;
@@ -225,35 +225,14 @@ contract Lottery is VRFConsumerBaseV2 {
     COORDINATOR.cancelSubscription(subscriptionId, ownerAddress);
   }
 
-	// Transfer this contract's funds to an address.
-  // 1000000000000000000 = 1 LINK
-
 	/**
 	 * @notice Transfer this contract's LINK funds to the owner address
 	 */
   function withdraw() external {
+		if (msg.sender != ownerAddress) revert Unauthorized();
+
 		uint256 balance = LINKTOKEN.balanceOf(address(this));
     LINKTOKEN.transfer(ownerAddress, balance);
-  }
-
-	/**
-	 * @notice Refill our contract with LINK tokens.
-	 */
-	function fund(uint256 _amount) public {
-			LINKTOKEN.transferAndCall(
-					address(COORDINATOR),
-					_amount,
-					abi.encode(subscriptionId)
-			);
-	}
-
-	/**
-	 * @notice Transfer this contract's LINK funds to an address
-	 * @param _receiverAddress the address of the receiver
-	 * @param _amount the amount of LINK sent to the receiver
-	 */
-  function withdraw(address _receiverAddress, uint256 _amount) external {
-    LINKTOKEN.transfer(_receiverAddress, _amount);
   }
 
 	/******************************************************************
